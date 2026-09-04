@@ -35,6 +35,11 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        # Defaults to false, which requires Pages to have been switched on by
+        # hand first. Enabling it here lets the first deploy set the repository
+        # up on its own.
+        with:
+          enablement: true
 
       - name: Upload the site
         uses: actions/upload-pages-artifact@v3
