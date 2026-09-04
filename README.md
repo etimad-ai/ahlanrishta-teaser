@@ -1,12 +1,12 @@
 # Ahlan Rishta — teaser
 
-A bilingual (English / Arabic) teaser site with a launch countdown, the
-introductory gathering's details, and an early-invitation form, built to the
-*Ahlan Rishta Brand Guidelines, Edition 01 · 2026*.
+An English-language teaser site with a launch countdown, the introductory
+gathering's details, and an early-invitation form, built to the *Ahlan Rishta
+Brand Guidelines, Edition 01 · 2026*.
 
 Launch and the gathering are the same day: **Friday, 2 October 2026, in
 Riyadh**. This first gathering is open to Indian Muslim families living in
-Saudi Arabia, and the page says so in both languages.
+Saudi Arabia, and the page says so.
 
 Static HTML, CSS and JavaScript. No build step, no dependencies, no framework —
 open `index.html` and it runs.
@@ -15,31 +15,7 @@ open `index.html` and it runs.
 
 ## Before this goes live
 
-One value still needs setting before launch, and one is confirmed. Both are
-single-line edits near the top of `assets/js/main.js`.
-
-### 1. The launch date
-
-```js
-var LAUNCH_ISO = "2026-10-02T00:00:00+03:00";
-```
-
-Launch is **Friday, 2 October 2026**. `+03:00` is Arabian Standard Time, which
-the GCC observes year-round, so no daylight-saving correction is needed. Change
-this one value and the countdown, the `aria-live` summary and the Arabic
-numerals all follow.
-
-The human-readable date is also written into the markup in two places — search
-`index.html` for `Friday, 2 October 2026` and `الجمعة ٢ أكتوبر ٢٠٢٦`, which
-appear in both the countdown caption and the gathering band — and into the OG
-card (see *Regenerating the OG image* below).
-
-**Time and venue are deliberately withheld.** The band says they are shared with
-registered guests closer to the date, matching the invitation poster. When the
-venue is settled, replace that one `fact` in the band rather than adding a new
-row.
-
-### 2. Where invitation requests go
+### Where invitation requests go
 
 ```js
 var WAITLIST_ENDPOINT = "";
@@ -48,16 +24,35 @@ var WAITLIST_ENDPOINT = "";
 While this is empty the form **falls back to opening the visitor's mail client**
 with a pre-filled message to `CONTACT_EMAIL`. That is deliberate — it fails
 visibly rather than silently discarding signups — but it is not what you want in
-production.
+production, and in a sandboxed preview the fallback cannot navigate at all, so
+the button appears to do nothing.
 
 Set it to any URL that accepts a JSON `POST` (a Formspree/Buttondown endpoint, a
 Cloudflare Worker, an API route). The body is:
 
 ```json
-{ "email": "…", "role": "candidate" | "guardian", "locale": "en" | "ar" }
+{ "email": "…", "role": "candidate" | "guardian" }
 ```
 
 A non-2xx response shows the failure message and re-enables the button.
+
+### The launch instant
+
+```js
+var LAUNCH_ISO = "2026-10-02T00:00:00+03:00";
+```
+
+`+03:00` is Arabian Standard Time, which the GCC observes year-round, so no
+daylight-saving correction is needed. Change this one value and the countdown
+and its `aria-live` summary both follow.
+
+The human-readable date is also written into the markup twice — search
+`index.html` for `Friday, 2 October 2026`, which appears under the countdown and
+in the gathering band — and into the OG card (see *Regenerating the OG image*).
+
+**Time and venue are deliberately withheld.** The band says they are shared with
+registered guests closer to the date, matching the invitation poster. When the
+venue is settled, replace that one `fact` in the band rather than adding a row.
 
 ---
 
@@ -70,15 +65,13 @@ npx http-server -p 8080 -c-1 .
 # then open http://127.0.0.1:8080
 ```
 
-Opening `index.html` directly via `file://` also works, except that
-`localStorage` (used to remember the language choice) is restricted in some
-browsers under that scheme.
+Opening `index.html` over `file://` works too.
 
 ## Deploying
 
-The site is plain static files, so it deploys as-is to Cloudflare Pages, Netlify,
-Vercel, GitHub Pages or S3. There is no build command; the publish directory is
-the repository root.
+Plain static files, so it deploys as-is to Cloudflare Pages, Netlify, Vercel,
+GitHub Pages or S3. There is no build command; the publish directory is the
+repository root.
 
 ---
 
@@ -104,8 +97,8 @@ Three evergreen shades (`--evergreen-deep`, `--evergreen-dark`,
 primary, not new hues.
 
 Type is **Newsreader** for display and **Archivo** for body and UI, per the
-guidelines. Arabic is set in **Amiri** (display, pairing with Newsreader's
-editorial serif) and **IBM Plex Sans Arabic** (body, pairing with Archivo).
+guidelines. **Amiri** is loaded for one purpose only — the Arabic wordmark
+أهلاً رشتة, which is a logotype rather than translated copy.
 
 ### The Eternal Knot
 
@@ -123,9 +116,6 @@ The mark's viewBox is `0 0 100 56`, so size it with `width` and `height: auto`;
 a square box would letterbox it. The favicon and app icon use tighter, heavier
 rings to survive 16px browser chrome.
 
-The hero carries two hairline arcs bleeding off the upper corner, anchored to
-the inline end so the composition mirrors under RTL.
-
 ### The gathering band
 
 The full-bleed gold band under the hero is lifted from the invitation poster:
@@ -136,27 +126,42 @@ line is a sentence, so it steps down to Archivo.
 
 ---
 
+## The hero
+
+Deliberately minimal: wordmark, headline, one line of copy, the countdown, the
+date, and a single call to action. No eyebrow, no section furniture, and no form
+— the invitation form lives in the gathering section, where the event details
+give it context, and the hero button is an anchor to it.
+
+The headline is the one loud element on the page, at `clamp(2.9rem, 8vw,
+6.5rem)` — 104px at desktop widths. Tight leading (`1.02`) and negative tracking
+(`-0.042em`) are what let a serif that large still read as composed. The
+countdown carries no boxes, borders or fills: numerals, hairline dividers and
+small caps labels only.
+
+The vertical rhythm is tuned so the call to action clears the fold at both
+1440×900 and 1280×800. If you add anything to the hero, re-check that.
+
+Two hairline arcs bleed off the upper corner, echoing the ring mark without
+competing with the wordmark.
+
 ## Voice
 
 The guidelines rule out false urgency ("Only 3 spots left — act now!"), so the
-countdown is written as an announcement rather than a scarcity device: *"We open
-in"*, followed by the date. There is no "hurry", no seat count and no artificial
-deadline anywhere in the copy. Section copy is taken from the guidelines'
-positioning, pillars and messaging pages.
+countdown is written as an announcement rather than a scarcity device. There is
+no "hurry", no seat count and no artificial deadline anywhere in the copy.
+Section copy is taken from the guidelines' positioning, pillars and messaging
+pages.
 
 ## Accessibility
 
 - Countdown digits are `aria-hidden`; a visually hidden `aria-live="polite"`
   summary announces the remaining time **once a minute** rather than once a
   second, so screen readers are informed without being flooded.
-- The language toggle sets `lang` and `dir` on `<html>`; layout uses logical
-  properties so RTL follows automatically. Purely decorative elements are
-  anchored physically so they stay centred in both directions.
-- Arabic renders Arabic-Indic numerals (٨٧) in the countdown and dates.
 - Skip link, visible focus rings, labelled form fields, and a
   `prefers-reduced-motion` guard around every animation.
-- The stored language is applied in a blocking inline script in `<head>` so a
-  returning Arabic reader never sees an LTR flash.
+- Layout still uses logical properties throughout. Nothing depends on it today,
+  but it means a future Arabic edition would not need the CSS rewritten.
 
 ---
 
@@ -164,16 +169,15 @@ positioning, pillars and messaging pages.
 
 `assets/img/og-image.png` (1200×630) was rendered from HTML with headless
 Chromium. If the launch date or headline changes, re-render it rather than
-editing the PNG — the source markup is in the commit history for this file, or
-rebuild it from the hero's type and colour tokens.
+editing the PNG — rebuild it from the hero's type and colour tokens.
 
 ## Layout
 
 ```
-index.html              markup, bilingual copy, the Eternal Knot symbol
+index.html              markup and copy, plus the Eternal Knot symbol
 site.webmanifest        PWA metadata
 assets/css/styles.css   brand tokens + all styling
-assets/js/main.js       countdown, language switch, invitation form
+assets/js/main.js       countdown and invitation form
 assets/img/
   mark.svg              the Eternal Knot, transparent, for press and partners
   favicon.svg           evergreen tile, tuned for 16px

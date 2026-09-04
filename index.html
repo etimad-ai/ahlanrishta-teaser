@@ -4,22 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ahlan Rishta — The trusted welcome to your rishta</title>
-<meta name="description" content="A private, verified, Islamic-values-based matrimonial platform for Indian Muslim expatriates and families living in Saudi Arabia. Opening soon.">
+<meta name="description" content="A private, verified, Islamic-values-based matrimonial platform for Indian Muslim expatriates and families living in Saudi Arabia. Opening Friday 2 October 2026 in Riyadh.">
 <meta name="theme-color" content="#0E362A">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark">
 
 <link rel="canonical" href="https://ahlanrishta.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ahlan Rishta">
 <meta property="og:title" content="Ahlan Rishta — The trusted welcome to your rishta">
-<meta property="og:description" content="A private, verified, Islamic-values-based matrimonial platform for Indian Muslim expatriates and families living in Saudi Arabia. Opening soon.">
+<meta property="og:description" content="A private, verified, Islamic-values-based matrimonial platform for Indian Muslim families living in Saudi Arabia. Opening Friday 2 October 2026 in Riyadh.">
 <meta property="og:url" content="https://ahlanrishta.com/">
 <meta property="og:image" content="https://ahlanrishta.com/assets/img/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ahlan Rishta — The trusted welcome to your rishta">
-<meta name="twitter:description" content="A private, verified, Islamic-values-based matrimonial platform for Indian Muslim families living in Saudi Arabia. Opening soon.">
+<meta name="twitter:description" content="A private, verified matrimonial platform for Indian Muslim families living in Saudi Arabia. Opening 2 October 2026.">
 <meta name="twitter:image" content="https://ahlanrishta.com/assets/img/og-image.png">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -28,7 +28,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Archivo:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Archivo:wght@400;500;600;700&family=Amiri:wght@400&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 
 <script type="application/ld+json">
@@ -43,17 +43,6 @@
   "areaServed": "SA",
   "email": "hello@ahlanrishta.com"
 }
-</script>
-
-<script>
-  // Applied before first paint so a returning Arabic reader never sees an LTR flash.
-  try {
-    var savedLang = localStorage.getItem("ar-lang");
-    if (savedLang === "ar") {
-      document.documentElement.lang = "ar";
-      document.documentElement.dir = "rtl";
-    }
-  } catch (e) {}
 </script>
 </head>
 
@@ -94,16 +83,8 @@
       <svg class="lockup__mark" viewBox="0 0 100 56" aria-hidden="true" focusable="false">
         <use href="#mark-knot"></use>
       </svg>
-      <span class="lockup__text">
-        <span class="lockup__name">Ahlan Rishta</span>
-        <span class="lockup__name lockup__name--ar" lang="ar" dir="rtl">أهلاً رشتة</span>
-      </span>
+      <span class="lockup__name">Ahlan Rishta</span>
     </a>
-
-    <button type="button" class="lang-toggle" id="langToggle" aria-live="polite">
-      <span class="lang-toggle__label" data-lang-en>العربية</span>
-      <span class="lang-toggle__label" data-lang-ar>English</span>
-    </button>
   </header>
 
   <main id="main">
@@ -117,160 +98,60 @@
         </svg>
       </div>
 
-      <p class="eyebrow">
-        <span data-lang-en>Edition 01 · 2026</span>
-        <span data-lang-ar lang="ar">الإصدار الأول · ٢٠٢٦</span>
-      </p>
-
       <p class="hero__script" lang="ar" dir="rtl" aria-hidden="true">أهلاً رشتة</p>
 
-      <h1 class="hero__title" id="hero-title">
-        <span data-lang-en>The trusted welcome<br>to your rishta</span>
-        <span data-lang-ar lang="ar">بداية موثوقة<br>لرِشتتك</span>
-      </h1>
+      <h1 class="hero__title" id="hero-title">The trusted welcome to your rishta</h1>
 
       <p class="hero__lede">
-        <span data-lang-en>A private, verified, Islamic-values-based matrimonial platform for
-          Indian Muslim expatriates and families living in Saudi Arabia.</span>
-        <span data-lang-ar lang="ar">منصّة زواج خاصّة وموثّقة قائمة على القيم الإسلامية،
-          لأبناء الجالية الهندية المسلمة وعائلاتهم المقيمين في السعودية.</span>
+        A private, verified matrimonial platform for Indian Muslim families
+        living in Saudi Arabia.
       </p>
 
       <!-- ── Countdown ───────────────────────────────────────────────────── -->
-      <div class="countdown" id="countdown">
-        <p class="countdown__label">
-          <span data-lang-en>We open in</span>
-          <span data-lang-ar lang="ar">نفتح أبوابنا خلال</span>
-        </p>
-
+      <div class="countdown">
         <!-- Digits are decorative for AT; the polite summary below carries the value. -->
         <ol class="countdown__units" aria-hidden="true">
           <li class="unit">
             <span class="unit__value" data-unit="days">—</span>
-            <span class="unit__name">
-              <span data-lang-en>Days</span>
-              <span data-lang-ar lang="ar">يوم</span>
-            </span>
+            <span class="unit__name">Days</span>
           </li>
           <li class="unit">
             <span class="unit__value" data-unit="hours">—</span>
-            <span class="unit__name">
-              <span data-lang-en>Hours</span>
-              <span data-lang-ar lang="ar">ساعة</span>
-            </span>
+            <span class="unit__name">Hours</span>
           </li>
           <li class="unit">
             <span class="unit__value" data-unit="minutes">—</span>
-            <span class="unit__name">
-              <span data-lang-en>Minutes</span>
-              <span data-lang-ar lang="ar">دقيقة</span>
-            </span>
+            <span class="unit__name">Minutes</span>
           </li>
           <li class="unit">
             <span class="unit__value" data-unit="seconds">—</span>
-            <span class="unit__name">
-              <span data-lang-en>Seconds</span>
-              <span data-lang-ar lang="ar">ثانية</span>
-            </span>
+            <span class="unit__name">Seconds</span>
           </li>
         </ol>
 
         <p class="sr-only" id="countdownSummary" aria-live="polite"></p>
 
-        <p class="countdown__date">
-          <svg class="countdown__rule" viewBox="0 0 60 8" aria-hidden="true" focusable="false">
-            <path d="M0 4h20M40 4h20" stroke="currentColor" stroke-width="1"></path>
-            <path d="M30 0.5 33.5 4 30 7.5 26.5 4Z" fill="currentColor"></path>
-          </svg>
-          <span data-lang-en>Friday, 2 October 2026 · Riyadh</span>
-          <span data-lang-ar lang="ar">الجمعة ٢ أكتوبر ٢٠٢٦ · الرياض</span>
-        </p>
+        <p class="countdown__date">Friday, 2 October 2026 &middot; Riyadh</p>
       </div>
 
-      <!-- ── Invitation form ─────────────────────────────────────────────── -->
-      <form class="invite" id="inviteForm" novalidate>
-        <h2 class="invite__title">
-          <span data-lang-en>Request an early invitation</span>
-          <span data-lang-ar lang="ar">اطلب دعوة مبكرة</span>
-        </h2>
-
-        <div class="invite__fields">
-          <div class="field">
-            <label class="sr-only" for="email">
-              <span data-lang-en>Email address</span>
-              <span data-lang-ar lang="ar">البريد الإلكتروني</span>
-            </label>
-            <input class="field__input" type="email" id="email" name="email"
-                   autocomplete="email" required
-                   data-placeholder-en="Your email address"
-                   data-placeholder-ar="بريدك الإلكتروني">
-          </div>
-
-          <div class="field">
-            <label class="sr-only" for="role">
-              <span data-lang-en>I am</span>
-              <span data-lang-ar lang="ar">أنا</span>
-            </label>
-            <select class="field__input field__input--select" id="role" name="role">
-              <option value="candidate"
-                      data-label-en="Seeking marriage"
-                      data-label-ar="باحث عن الزواج">Seeking marriage</option>
-              <option value="guardian"
-                      data-label-en="A parent or guardian"
-                      data-label-ar="ولي أمر أو أحد الوالدين">A parent or guardian</option>
-            </select>
-          </div>
-
-          <button class="btn btn--gold" type="submit">
-            <span data-lang-en>Request invitation</span>
-            <span data-lang-ar lang="ar">اطلب دعوة</span>
-          </button>
-        </div>
-
-        <p class="invite__note" id="inviteNote" role="status">
-          <span data-lang-en>Your details stay private. No marketing lists, nothing shared.</span>
-          <span data-lang-ar lang="ar">بياناتك تبقى خاصّة. لا قوائم تسويقية، ولا مشاركة مع أحد.</span>
-        </p>
-      </form>
+      <a class="btn btn--gold hero__cta" href="#invite">Request an invitation</a>
     </section>
-
 
     <!-- ── Gathering details ──────────────────────────────────────────────── -->
     <aside class="event-band">
-      <h2 class="sr-only">
-        <span data-lang-en>Gathering details</span>
-        <span data-lang-ar lang="ar">تفاصيل اللقاء</span>
-      </h2>
+      <h2 class="sr-only">Gathering details</h2>
       <dl class="event-band__inner">
         <div class="fact">
-          <dt class="fact__label">
-            <span data-lang-en>Date</span>
-            <span data-lang-ar lang="ar">التاريخ</span>
-          </dt>
-          <dd class="fact__value">
-            <span data-lang-en>Friday, 2 October 2026</span>
-            <span data-lang-ar lang="ar">الجمعة ٢ أكتوبر ٢٠٢٦</span>
-          </dd>
+          <dt class="fact__label">Date</dt>
+          <dd class="fact__value">Friday, 2 October 2026</dd>
         </div>
         <div class="fact">
-          <dt class="fact__label">
-            <span data-lang-en>Time &amp; venue</span>
-            <span data-lang-ar lang="ar">الوقت والمكان</span>
-          </dt>
-          <dd class="fact__value fact__value--note">
-            <span data-lang-en>Shared with registered guests closer to the date</span>
-            <span data-lang-ar lang="ar">نشاركهما مع الضيوف المسجّلين قبل الموعد</span>
-          </dd>
+          <dt class="fact__label">Time &amp; venue</dt>
+          <dd class="fact__value fact__value--note">Shared with registered guests closer to the date</dd>
         </div>
         <div class="fact">
-          <dt class="fact__label">
-            <span data-lang-en>Entry</span>
-            <span data-lang-ar lang="ar">الدخول</span>
-          </dt>
-          <dd class="fact__value">
-            <span data-lang-en>Free, by invitation</span>
-            <span data-lang-ar lang="ar">مجاني، بدعوة</span>
-          </dd>
+          <dt class="fact__label">Entry</dt>
+          <dd class="fact__value">Free, by invitation</dd>
         </div>
       </dl>
     </aside>
@@ -278,92 +159,86 @@
     <!-- ── The gathering ──────────────────────────────────────────────────── -->
     <section class="section section--evergreen" aria-labelledby="gathering-title">
       <div class="section__inner">
-        <p class="eyebrow">
-          <span data-lang-en>Introductory gathering</span>
-          <span data-lang-ar lang="ar">لقاء تعريفي</span>
-        </p>
+        <p class="eyebrow">Introductory gathering</p>
         <h2 class="section__title section__title--light" id="gathering-title">
-          <span data-lang-en>Come meet Ahlan Rishta</span>
-          <span data-lang-ar lang="ar">تعرّف على أهلاً رشتة</span>
+          Come meet Ahlan Rishta
         </h2>
 
         <div class="gathering">
           <p class="gathering__lede">
-            <span data-lang-en>An open afternoon for marriage seekers and their parents —
-              meet the team, see how it works, ask anything.</span>
-            <span data-lang-ar lang="ar">لقاء مفتوح للباحثين عن الزواج وأولياء أمورهم —
-              تعرّف على الفريق وعلى آلية العمل، واسأل ما شئت.</span>
+            An open afternoon for marriage seekers and their parents — meet the
+            team, see how it works, ask anything.
           </p>
 
           <ul class="gathering__list">
-            <li>
-              <span data-lang-en>Candidates and parents are both welcome.</span>
-              <span data-lang-ar lang="ar">الباحثون عن الزواج وأولياء الأمور مرحّب بهم جميعاً.</span>
-            </li>
-            <li>
-              <span data-lang-en>A complimentary Premium package for everyone who attends.</span>
-              <span data-lang-ar lang="ar">باقة بريميوم مجانية لكلّ من يحضر.</span>
-            </li>
-            <li>
-              <span data-lang-en>Request an invitation above — it takes two minutes. We confirm
-                your seat and send the venue and timing by message.</span>
-              <span data-lang-ar lang="ar">اطلب دعوتك أعلاه — دقيقتان. نؤكّد مقعدك ونرسل
-                المكان والتوقيت برسالة.</span>
-            </li>
+            <li>Candidates and parents are both welcome.</li>
+            <li>A complimentary Premium package for everyone who attends.</li>
+            <li>Two minutes to register. We confirm your seat and send the venue
+              and timing by message.</li>
           </ul>
 
           <p class="gathering__who">
-            <span class="gathering__who-label">
-              <span data-lang-en>Who it is for</span>
-              <span data-lang-ar lang="ar">لمن هذا اللقاء</span>
-            </span>
-            <span data-lang-en>This first gathering is open to Indian Muslim families
-              living in Saudi Arabia.</span>
-            <span data-lang-ar lang="ar">هذا اللقاء الأول مخصّص لأبناء الجالية الهندية
-              المسلمة وعائلاتهم المقيمين في السعودية.</span>
+            <span class="gathering__who-label">Who it is for</span>
+            This first gathering is open to Indian Muslim families living in
+            Saudi Arabia.
           </p>
         </div>
+
+        <!-- ── Invitation form ─────────────────────────────────────────────── -->
+        <form class="invite" id="invite" novalidate>
+          <h3 class="invite__title">Request an early invitation</h3>
+
+          <div class="invite__fields">
+            <div class="field">
+              <label class="sr-only" for="email">Email address</label>
+              <input class="field__input" type="email" id="email" name="email"
+                     autocomplete="email" required placeholder="Your email address">
+            </div>
+
+            <div class="field">
+              <label class="sr-only" for="role">I am</label>
+              <select class="field__input field__input--select" id="role" name="role">
+                <option value="candidate">Seeking marriage</option>
+                <option value="guardian">A parent or guardian</option>
+              </select>
+            </div>
+
+            <button class="btn btn--gold" type="submit">Request invitation</button>
+          </div>
+
+          <p class="invite__note" id="inviteNote" role="status">
+            Your details stay private. No marketing lists, nothing shared.
+          </p>
+        </form>
       </div>
     </section>
 
     <!-- ── Positioning ────────────────────────────────────────────────────── -->
     <section class="section section--cream" aria-labelledby="position-title">
       <div class="section__inner">
-        <p class="eyebrow eyebrow--ink">
-          <span data-lang-en>Positioning</span>
-          <span data-lang-ar lang="ar">الموقع</span>
-        </p>
-        <h2 class="section__title" id="position-title">
-          <span data-lang-en>What Ahlan Rishta is — and is not</span>
-          <span data-lang-ar lang="ar">ما هي أهلاً رشتة — وما ليست هي</span>
-        </h2>
+        <p class="eyebrow eyebrow--ink">Positioning</p>
+        <h2 class="section__title" id="position-title">What Ahlan Rishta is — and is not</h2>
 
         <div class="ledger">
           <div class="ledger__col ledger__col--are">
-            <h3 class="ledger__head">
-              <span data-lang-en>We are</span>
-              <span data-lang-ar lang="ar">نحن</span>
-            </h3>
+            <h3 class="ledger__head">We are</h3>
             <ul class="ledger__list">
-              <li><span data-lang-en>Trust-first &amp; verified</span><span data-lang-ar lang="ar">الثقة أولاً، مع توثيق</span></li>
-              <li><span data-lang-en>Family &amp; wali aware</span><span data-lang-ar lang="ar">نراعي العائلة والوليّ</span></li>
-              <li><span data-lang-en>Private by default</span><span data-lang-ar lang="ar">الخصوصية افتراضياً</span></li>
-              <li><span data-lang-en>Serious, marriage-intent only</span><span data-lang-ar lang="ar">للجادّين بنيّة الزواج فقط</span></li>
-              <li><span data-lang-en>Fewer, better matches</span><span data-lang-ar lang="ar">مطابقات أقل، وأفضل</span></li>
+              <li>Trust-first &amp; verified</li>
+              <li>Family &amp; wali aware</li>
+              <li>Private by default</li>
+              <li>Serious, marriage-intent only</li>
+              <li>Fewer, better matches</li>
             </ul>
           </div>
 
           <div class="ledger__col ledger__col--not">
-            <h3 class="ledger__head">
-              <span data-lang-en>We are not</span>
-              <span data-lang-ar lang="ar">لسنا</span>
-            </h3>
+            <h3 class="ledger__head">We are not</h3>
             <ul class="ledger__list ledger__list--not">
-              <li><span data-lang-en>A dating app</span><span data-lang-ar lang="ar">تطبيق مواعدة</span></li>
-              <li><span data-lang-en>Swipe or photo-first</span><span data-lang-ar lang="ar">تصفّحاً سريعاً أو صوراً أولاً</span></li>
-              <li><span data-lang-en>An open, public directory</span><span data-lang-ar lang="ar">دليلاً عاماً مفتوحاً</span></li>
-              <li><span data-lang-en>Gamified or attention-farming</span><span data-lang-ar lang="ar">لعبةً أو مصيدة انتباه</span></li>
-              <li><span data-lang-en>Scale over trust</span><span data-lang-ar lang="ar">الكمّ على حساب الثقة</span></li>
+              <li>A dating app</li>
+              <li>Swipe or photo-first</li>
+              <li>An open, public directory</li>
+              <li>Gamified or attention-farming</li>
+              <li>Scale over trust</li>
             </ul>
           </div>
         </div>
@@ -373,81 +248,47 @@
     <!-- ── Pillars ────────────────────────────────────────────────────────── -->
     <section class="section section--evergreen" aria-labelledby="pillars-title">
       <div class="section__inner">
-        <p class="eyebrow">
-          <span data-lang-en>Brand pillars</span>
-          <span data-lang-ar lang="ar">ركائزنا</span>
-        </p>
+        <p class="eyebrow">Brand pillars</p>
         <h2 class="section__title section__title--light" id="pillars-title">
-          <span data-lang-en>Six promises we design around</span>
-          <span data-lang-ar lang="ar">ستّة وعود نبني عليها</span>
+          Six promises we design around
         </h2>
 
         <ol class="pillars">
           <li class="pillar">
             <span class="pillar__num">01</span>
-            <h3 class="pillar__title">
-              <span data-lang-en>Verification first</span>
-              <span data-lang-ar lang="ar">التوثيق أولاً</span>
-            </h3>
-            <p class="pillar__body">
-              <span data-lang-en>Layered trust — phone, selfie, family, education, employment — shown as a clear trust level.</span>
-              <span data-lang-ar lang="ar">ثقة متدرّجة: الهاتف، الصورة الشخصية، العائلة، التعليم، والعمل — تظهر كمستوى ثقة واضح.</span>
-            </p>
+            <h3 class="pillar__title">Verification first</h3>
+            <p class="pillar__body">Layered trust — phone, selfie, family, education,
+              employment — shown as a clear trust level.</p>
           </li>
           <li class="pillar">
             <span class="pillar__num">02</span>
-            <h3 class="pillar__title">
-              <span data-lang-en>Family-centered</span>
-              <span data-lang-ar lang="ar">العائلة في المركز</span>
-            </h3>
-            <p class="pillar__body">
-              <span data-lang-en>Candidate and guardian accounts, with configurable family-first or candidate-first flows.</span>
-              <span data-lang-ar lang="ar">حسابات للمرشّح وللوليّ، ومسارات تبدأ بالعائلة أو بالمرشّح حسب اختياركم.</span>
-            </p>
+            <h3 class="pillar__title">Family-centered</h3>
+            <p class="pillar__body">Candidate and guardian accounts, with configurable
+              family-first or candidate-first flows.</p>
           </li>
           <li class="pillar">
             <span class="pillar__num">03</span>
-            <h3 class="pillar__title">
-              <span data-lang-en>Privacy &amp; control</span>
-              <span data-lang-ar lang="ar">الخصوصية والتحكّم</span>
-            </h3>
-            <p class="pillar__body">
-              <span data-lang-en>Blurred photos, watermarked cards, expiring links. Your profile never travels without you.</span>
-              <span data-lang-ar lang="ar">صور مموّهة، وبطاقات بعلامة مائية، وروابط تنتهي صلاحيتها. ملفّك لا ينتقل من دونك.</span>
-            </p>
+            <h3 class="pillar__title">Privacy &amp; control</h3>
+            <p class="pillar__body">Blurred photos, watermarked cards, expiring links.
+              Your profile never travels without you.</p>
           </li>
           <li class="pillar">
             <span class="pillar__num">04</span>
-            <h3 class="pillar__title">
-              <span data-lang-en>Values-based matching</span>
-              <span data-lang-ar lang="ar">مطابقة قائمة على القيم</span>
-            </h3>
-            <p class="pillar__body">
-              <span data-lang-en>Deen, akhlaq, and family compatibility — over appearance, wealth, or status.</span>
-              <span data-lang-ar lang="ar">الدين والأخلاق والتوافق العائلي — قبل المظهر أو المال أو المكانة.</span>
-            </p>
+            <h3 class="pillar__title">Values-based matching</h3>
+            <p class="pillar__body">Deen, akhlaq, and family compatibility — over
+              appearance, wealth, or status.</p>
           </li>
           <li class="pillar">
             <span class="pillar__num">05</span>
-            <h3 class="pillar__title">
-              <span data-lang-en>Guided journey</span>
-              <span data-lang-ar lang="ar">رحلة مصحوبة</span>
-            </h3>
-            <p class="pillar__body">
-              <span data-lang-en>Optional mediators, counselling, and scholar-reviewed guidance — not just a directory.</span>
-              <span data-lang-ar lang="ar">وسطاء اختياريون، واستشارات، وإرشاد بمراجعة شرعية — لا مجرّد دليل أسماء.</span>
-            </p>
+            <h3 class="pillar__title">Guided journey</h3>
+            <p class="pillar__body">Optional mediators, counselling, and scholar-reviewed
+              guidance — not just a directory.</p>
           </li>
           <li class="pillar">
             <span class="pillar__num">06</span>
-            <h3 class="pillar__title">
-              <span data-lang-en>Quality over quantity</span>
-              <span data-lang-ar lang="ar">الجودة قبل الكثرة</span>
-            </h3>
-            <p class="pillar__body">
-              <span data-lang-en>Fewer profiles, better matches, higher trust. No endless scroll, no boosts.</span>
-              <span data-lang-ar lang="ar">ملفات أقل، ومطابقات أفضل، وثقة أعلى. لا تصفّح لا ينتهي، ولا ترويج مدفوع.</span>
-            </p>
+            <h3 class="pillar__title">Quality over quantity</h3>
+            <p class="pillar__body">Fewer profiles, better matches, higher trust.
+              No endless scroll, no boosts.</p>
           </li>
         </ol>
       </div>
@@ -456,8 +297,7 @@
     <!-- ── Closing ────────────────────────────────────────────────────────── -->
     <section class="closing" aria-labelledby="closing-title">
       <blockquote class="closing__quote" id="closing-title">
-        <span data-lang-en>A serious match begins with trust.</span>
-        <span data-lang-ar lang="ar">الرِشتة الجادّة تبدأ بالثقة.</span>
+        A serious match begins with trust.
       </blockquote>
     </section>
 
@@ -469,13 +309,12 @@
         <use href="#mark-knot"></use>
       </svg>
       <p class="site-footer__line">
-        <span data-lang-en>Ahlan Rishta · The trusted covenant platform for Muslim marriage</span>
-        <span data-lang-ar lang="ar">أهلاً رشتة · منصّة الميثاق الموثوقة للزواج</span>
+        Ahlan Rishta · The trusted covenant platform for Muslim marriage
       </p>
       <p class="site-footer__meta">
         <a href="mailto:hello@ahlanrishta.com">hello@ahlanrishta.com</a>
         <span class="site-footer__dot" aria-hidden="true">·</span>
-        <span dir="ltr">&copy; 2026 Ahlan Rishta</span>
+        <span>&copy; 2026 Ahlan Rishta</span>
       </p>
     </div>
   </footer>

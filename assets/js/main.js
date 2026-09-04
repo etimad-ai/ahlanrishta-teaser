@@ -1,8 +1,8 @@
 /* =============================================================================
  * Ahlan Rishta — teaser behaviour
  *
- * Three concerns, in order: the countdown, the EN/AR language switch, and the
- * invitation form. No dependencies, no build step.
+ * Two concerns: the countdown, and the invitation form.
+ * No dependencies, no build step.
  * ========================================================================== */
 
 (function () {
@@ -16,8 +16,6 @@
    * Public launch, as an ISO 8601 instant with an explicit offset.
    * +03:00 is Arabian Standard Time (Riyadh), which the GCC observes
    * year-round, so no daylight-saving correction is needed.
-   *
-   * PLACEHOLDER — replace with the confirmed launch date.
    */
   var LAUNCH_ISO = "2026-10-02T00:00:00+03:00";
 
@@ -27,79 +25,34 @@
   /** Used by the mailto fallback and shown in the footer. */
   var CONTACT_EMAIL = "hello@ahlanrishta.com";
 
-  /* ---------------------------------------------------------------------
-   * Copy that lives in script rather than markup
-   * ------------------------------------------------------------------ */
-
   var COPY = {
-    en: {
-      toggleLabel: "Switch to Arabic",
-      privacy: "Your details stay private. No marketing lists, nothing shared.",
-      sending: "Sending your request…",
-      success: "Thank you. We will write to you before we open.",
-      invalidEmail: "Please enter a valid email address.",
-      failure: "Something went wrong. Please email " + CONTACT_EMAIL + ".",
-      mailto: "Opening your email app to complete the request…",
-      summary: function (d, h, m) {
-        return "We open in " + d + " days, " + h + " hours and " + m + " minutes.";
-      },
-      open: "We are open."
-    },
-    ar: {
-      toggleLabel: "التبديل إلى الإنجليزية",
-      privacy: "بياناتك تبقى خاصّة.",
-      sending: "جارٍ إرسال طلبك…",
-      success: "شكراً لك. سنراسلك قبل الافتتاح.",
-      invalidEmail: "الرجاء إدخال بريد إلكتروني صحيح.",
-      failure: "حدث خطأ. راسلنا على " + CONTACT_EMAIL + ".",
-      mailto: "يتم فتح تطبيق البريد لإكمال الطلب…",
-      summary: function (d, h, m) {
-        return "نفتح خلال " + d + " يوماً و" + h + " ساعة و" + m + " دقيقة.";
-      },
-      open: "لقد افتتحنا."
-    }
+    sending: "Sending your request…",
+    success: "Thank you. We will write to you before the gathering.",
+    invalidEmail: "Please enter a valid email address.",
+    failure: "Something went wrong. Please email " + CONTACT_EMAIL + ".",
+    mailto: "Opening your email app to complete the request…",
+    open: "We are open."
   };
-
-  /* ---------------------------------------------------------------------
-   * Helpers
-   * ------------------------------------------------------------------ */
-
-  var root = document.documentElement;
-  var LANG_KEY = "ar-lang";
-  var ARABIC_DIGITS = ["٠", "١", "٢", "٣", "٤",
-                       "٥", "٦", "٧", "٨", "٩"];
-
-  function currentLang() {
-    return root.lang === "ar" ? "ar" : "en";
-  }
-
-  function t(key) {
-    return COPY[currentLang()][key];
-  }
-
-  /** Zero-pads to two digits, then renders Arabic-Indic numerals in Arabic. */
-  function formatNumber(value, lang) {
-    var text = String(value);
-    if (text.length < 2) text = "0" + text;
-    if (lang !== "ar") return text;
-    return text.replace(/[0-9]/g, function (d) {
-      return ARABIC_DIGITS[Number(d)];
-    });
-  }
 
   /* ---------------------------------------------------------------------
    * Countdown
    * ------------------------------------------------------------------ */
 
+  var UNITS = ["days", "hours", "minutes", "seconds"];
   var launchAt = new Date(LAUNCH_ISO).getTime();
   var valueNodes = {};
   var summaryNode = document.getElementById("countdownSummary");
   var lastRendered = {};
   var lastSummaryMinute = null;
 
-  ["days", "hours", "minutes", "seconds"].forEach(function (unit) {
+  UNITS.forEach(function (unit) {
     valueNodes[unit] = document.querySelector('[data-unit="' + unit + '"]');
   });
+
+  /** Zero-pads to two digits. */
+  function pad(value) {
+    return value < 10 ? "0" + value : String(value);
+  }
 
   function paint(unit, text) {
     var node = valueNodes[unit];
@@ -114,16 +67,13 @@
   }
 
   function renderCountdown() {
-    var lang = currentLang();
-    var remaining = launchAt - Date.now();
-
     if (!isFinite(launchAt)) return;
 
+    var remaining = launchAt - Date.now();
+
     if (remaining <= 0) {
-      ["days", "hours", "minutes", "seconds"].forEach(function (unit) {
-        paint(unit, formatNumber(0, lang));
-      });
-      if (summaryNode) summaryNode.textContent = t("open");
+      UNITS.forEach(function (unit) { paint(unit, "00"); });
+      if (summaryNode) summaryNode.textContent = COPY.open;
       return;
     }
 
@@ -131,18 +81,18 @@
     var days = Math.floor(totalSeconds / 86400);
     var hours = Math.floor((totalSeconds % 86400) / 3600);
     var minutes = Math.floor((totalSeconds % 3600) / 60);
-    var seconds = totalSeconds % 60;
 
-    paint("days", formatNumber(days, lang));
-    paint("hours", formatNumber(hours, lang));
-    paint("minutes", formatNumber(minutes, lang));
-    paint("seconds", formatNumber(seconds, lang));
+    paint("days", pad(days));
+    paint("hours", pad(hours));
+    paint("minutes", pad(minutes));
+    paint("seconds", pad(totalSeconds % 60));
 
     // Announce once a minute rather than once a second, so screen readers are
     // informed without being flooded.
     if (summaryNode && lastSummaryMinute !== minutes) {
       lastSummaryMinute = minutes;
-      summaryNode.textContent = COPY[lang].summary(days, hours, minutes);
+      summaryNode.textContent = "We open in " + days + " days, " + hours +
+        " hours and " + minutes + " minutes.";
     }
   }
 
@@ -150,54 +100,12 @@
   setInterval(renderCountdown, 1000);
 
   /* ---------------------------------------------------------------------
-   * Language
-   * ------------------------------------------------------------------ */
-
-  var langToggle = document.getElementById("langToggle");
-
-  /** Applies attributes CSS alone cannot reach: placeholders and option text. */
-  function applyLanguage(lang) {
-    root.lang = lang;
-    root.dir = lang === "ar" ? "rtl" : "ltr";
-
-    document.querySelectorAll("[data-placeholder-en]").forEach(function (input) {
-      input.placeholder = input.getAttribute("data-placeholder-" + lang) || "";
-    });
-
-    document.querySelectorAll("option[data-label-en]").forEach(function (option) {
-      option.textContent = option.getAttribute("data-label-" + lang) || option.textContent;
-    });
-
-    if (langToggle) langToggle.setAttribute("aria-label", COPY[lang].toggleLabel);
-
-    // Redraw immediately so the numerals switch script with the rest of the page.
-    lastRendered = {};
-    lastSummaryMinute = null;
-    renderCountdown();
-
-    try {
-      localStorage.setItem(LANG_KEY, lang);
-    } catch (e) {
-      /* Private browsing — the choice simply will not persist. */
-    }
-  }
-
-  applyLanguage(currentLang());
-
-  if (langToggle) {
-    langToggle.addEventListener("click", function () {
-      applyLanguage(currentLang() === "ar" ? "en" : "ar");
-    });
-  }
-
-  /* ---------------------------------------------------------------------
    * Invitation form
    * ------------------------------------------------------------------ */
 
-  var form = document.getElementById("inviteForm");
+  var form = document.getElementById("invite");
   var note = document.getElementById("inviteNote");
 
-  /** Replaces the bilingual default note with a single-language status line. */
   function setNote(message, state) {
     if (!note) return;
     note.textContent = message;
@@ -219,7 +127,7 @@
     window.location.href = "mailto:" + CONTACT_EMAIL +
       "?subject=" + encodeURIComponent(subject) +
       "&body=" + encodeURIComponent(body);
-    setNote(t("mailto"), "ok");
+    setNote(COPY.mailto, "ok");
   }
 
   if (form) {
@@ -233,7 +141,7 @@
       var role = roleInput.value;
 
       if (!isValidEmail(email)) {
-        setNote(t("invalidEmail"), "error");
+        setNote(COPY.invalidEmail, "error");
         emailInput.focus();
         return;
       }
@@ -244,21 +152,20 @@
       }
 
       submit.disabled = true;
-      setNote(t("sending"), null);
+      setNote(COPY.sending, null);
 
       fetch(WAITLIST_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, role: role, locale: currentLang() })
+        body: JSON.stringify({ email: email, role: role })
       })
         .then(function (response) {
           if (!response.ok) throw new Error("Request failed: " + response.status);
           form.reset();
-          applyLanguage(currentLang());
-          setNote(t("success"), "ok");
+          setNote(COPY.success, "ok");
         })
         .catch(function () {
-          setNote(t("failure"), "error");
+          setNote(COPY.failure, "error");
         })
         .then(function () {
           submit.disabled = false;
