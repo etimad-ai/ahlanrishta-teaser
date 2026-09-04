@@ -11,23 +11,23 @@ open `index.html` and it runs.
 
 ## Before this goes live
 
-Two values are placeholders. Both are single-line edits near the top of
-`assets/js/main.js`.
+One value still needs setting before launch, and one is confirmed. Both are
+single-line edits near the top of `assets/js/main.js`.
 
 ### 1. The launch date
 
 ```js
-var LAUNCH_ISO = "2026-12-01T00:00:00+03:00";
+var LAUNCH_ISO = "2026-10-02T00:00:00+03:00";
 ```
 
-**This date was not supplied and is a placeholder.** `+03:00` is Arabian
-Standard Time, which the GCC observes year-round, so no daylight-saving
-correction is needed. Change it to the confirmed date and the countdown, the
-`aria-live` summary and the Arabic numerals all follow.
+Launch is **Friday, 2 October 2026**. `+03:00` is Arabian Standard Time, which
+the GCC observes year-round, so no daylight-saving correction is needed. Change
+this one value and the countdown, the `aria-live` summary and the Arabic
+numerals all follow.
 
 The human-readable date is also written into the markup in two places — search
-`index.html` for `1 December 2026` and `١ ديسمبر ٢٠٢٦` — and into the OG card
-(see *Regenerating the OG image* below).
+`index.html` for `Friday, 2 October 2026` and `الجمعة ٢ أكتوبر ٢٠٢٦` — and into
+the OG card (see *Regenerating the OG image* below).
 
 ### 2. Where invitation requests go
 
@@ -102,15 +102,19 @@ editorial serif) and **IBM Plex Sans Arabic** (body, pairing with Archivo).
 The mark is drawn in SVG, once, as a `<symbol>` in `index.html`, and referenced
 by `<use>` everywhere it appears.
 
-Two identical rounded-square loops, one turned through 45°, cross at eight
-points. The turned loop is painted, covered by its twin, then repainted through
-four alternating octant wedges (`#knot-weave`) so it returns to the surface at
-every other crossing. That produces a true over-under interlace — a single
-endless weave with no beginning and no end — in the two brand tones, which is
-the reading the guidelines give it: two people, two families, one bond.
+Two rings of equal weight overlap and pass through one another. The right ring
+is drawn, the left ring covers it at the upper crossing, then the right ring is
+repainted through the lower half (`#knot-weave`) so it returns to the surface
+there. Neither ring sits on top of the other — they are genuinely linked and
+cannot be pulled apart, which is the reading the guidelines give the mark: two
+people, two families, one bond.
 
-The geometry was tuned so the weave stays legible down to 20px; the favicon uses
-a slightly heavier stroke for 16px browser chrome.
+The mark's viewBox is `0 0 100 56`, so size it with `width` and `height: auto`;
+a square box would letterbox it. The favicon and app icon use tighter, heavier
+rings to survive 16px browser chrome.
+
+The hero carries two hairline arcs bleeding off the upper corner, anchored to
+the inline end so the composition mirrors under RTL.
 
 ---
 

@@ -19,7 +19,7 @@
    *
    * PLACEHOLDER — replace with the confirmed launch date.
    */
-  var LAUNCH_ISO = "2026-12-01T00:00:00+03:00";
+  var LAUNCH_ISO = "2026-10-02T00:00:00+03:00";
 
   /** POST target for invitation requests. Empty string = mailto fallback. */
   var WAITLIST_ENDPOINT = "";

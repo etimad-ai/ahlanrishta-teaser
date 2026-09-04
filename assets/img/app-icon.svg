@@ -1,16 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
   <rect width="180" height="180" fill="#0E362A"/>
-  <clipPath id="weave">
-    <polygon points="90,90 234,90 191.9,191.9"/>
-    <polygon points="90,90 90,234 -11.9,191.9"/>
-    <polygon points="90,90 -54,90 -11.9,-11.9"/>
-    <polygon points="90,90 90,-54 191.9,-11.9"/>
-  </clipPath>
-  <g fill="none" stroke-width="12" stroke-linejoin="round">
-    <rect x="49" y="49" width="82" height="82" rx="6" stroke="#F7F2E8" transform="rotate(45 90 90)"/>
-    <rect x="49" y="49" width="82" height="82" rx="6" stroke="#C6A15B"/>
+  <clipPath id="weave"><rect x="0" y="90" width="180" height="90"/></clipPath>
+  <g fill="none" stroke-width="12">
+    <circle cx="115" cy="90" r="36" stroke="#F7F2E8"/>
+    <circle cx="65" cy="90" r="36" stroke="#C6A15B"/>
     <g clip-path="url(#weave)">
-      <rect x="49" y="49" width="82" height="82" rx="6" stroke="#F7F2E8" transform="rotate(45 90 90)"/>
+      <circle cx="115" cy="90" r="36" stroke="#F7F2E8"/>
     </g>
   </g>
 </svg>
