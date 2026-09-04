@@ -496,6 +496,131 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
 .invite__note--error { color: #E08C77; }
 
 /* ==========================================================================
+   Gathering — the gold detail band, carried over from the invitation poster
+   ========================================================================== */
+
+.event-band {
+  background: var(--covenant-gold);
+  color: var(--evergreen);
+  padding-block: clamp(1.75rem, 4vw, 2.5rem);
+  padding-inline: var(--gutter);
+}
+
+.event-band__inner {
+  max-width: var(--shell);
+  margin-inline: auto;
+  margin-block: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+/* Rules between the facts only once they sit side by side. */
+@media (min-width: 780px) {
+  .event-band__inner { grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .fact { padding-inline: clamp(1.5rem, 3.5vw, 3rem); }
+  .fact:first-child { padding-inline-start: 0; }
+  .fact:last-child { padding-inline-end: 0; }
+  .fact + .fact { border-inline-start: 1px solid rgba(14, 54, 42, 0.3); }
+}
+
+.fact__label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(14, 54, 42, 0.74);
+  margin-bottom: 0.55rem;
+}
+.fact__label [lang="ar"] { letter-spacing: 0; font-size: 0.85rem; }
+
+.fact__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+.fact__value [lang="ar"] { font-family: var(--font-display-ar); letter-spacing: 0; line-height: 1.5; }
+
+/* A sentence rather than a value, so it steps down to the body face. */
+.fact__value--note {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: rgba(14, 54, 42, 0.88);
+}
+.fact__value--note [lang="ar"] { font-family: var(--font-body-ar); }
+
+/* ── Gathering copy ─────────────────────────────────────────────────────── */
+
+.gathering { max-width: 62ch; }
+
+/* Once there is room, the notes move alongside the lede rather than leaving
+   half the row empty. */
+@media (min-width: 900px) {
+  .gathering {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .gathering__lede { grid-column: 1; grid-row: 1; margin-bottom: 0; }
+  .gathering__list { grid-column: 2; grid-row: 1 / span 2; }
+  .gathering__who  { grid-column: 1; grid-row: 2; margin-top: 2rem; }
+}
+
+.gathering__lede {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: var(--text-on-dark);
+  text-wrap: pretty;
+  margin-bottom: 2rem;
+}
+
+.gathering__list { display: grid; gap: 0.9rem; }
+
+.gathering__list li {
+  position: relative;
+  padding-inline-start: 1.9rem;
+  font-size: 0.98rem;
+  color: var(--text-on-dark-soft);
+  text-wrap: pretty;
+}
+.gathering__list li::before {
+  content: "\2713";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.05em;
+  font-weight: 700;
+  color: var(--covenant-gold);
+}
+
+.gathering__who {
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule-on-dark);
+  font-size: 0.98rem;
+  color: var(--text-on-dark);
+  text-wrap: pretty;
+}
+
+.gathering__who-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--covenant-gold);
+}
+.gathering__who-label [lang="ar"] { letter-spacing: 0; font-size: 0.85rem; }
+
+/* ==========================================================================
    Sections
    ========================================================================== */
 

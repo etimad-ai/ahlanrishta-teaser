@@ -1,8 +1,12 @@
 # Ahlan Rishta — teaser
 
-A bilingual (English / Arabic) teaser site with a launch countdown and an
-early-invitation form, built to the *Ahlan Rishta Brand Guidelines, Edition 01 ·
-2026*.
+A bilingual (English / Arabic) teaser site with a launch countdown, the
+introductory gathering's details, and an early-invitation form, built to the
+*Ahlan Rishta Brand Guidelines, Edition 01 · 2026*.
+
+Launch and the gathering are the same day: **Friday, 2 October 2026, in
+Riyadh**. This first gathering is open to Indian Muslim families living in
+Saudi Arabia, and the page says so in both languages.
 
 Static HTML, CSS and JavaScript. No build step, no dependencies, no framework —
 open `index.html` and it runs.
@@ -26,8 +30,14 @@ this one value and the countdown, the `aria-live` summary and the Arabic
 numerals all follow.
 
 The human-readable date is also written into the markup in two places — search
-`index.html` for `Friday, 2 October 2026` and `الجمعة ٢ أكتوبر ٢٠٢٦` — and into
-the OG card (see *Regenerating the OG image* below).
+`index.html` for `Friday, 2 October 2026` and `الجمعة ٢ أكتوبر ٢٠٢٦`, which
+appear in both the countdown caption and the gathering band — and into the OG
+card (see *Regenerating the OG image* below).
+
+**Time and venue are deliberately withheld.** The band says they are shared with
+registered guests closer to the date, matching the invitation poster. When the
+venue is settled, replace that one `fact` in the band rather than adding a new
+row.
 
 ### 2. Where invitation requests go
 
@@ -115,6 +125,14 @@ rings to survive 16px browser chrome.
 
 The hero carries two hairline arcs bleeding off the upper corner, anchored to
 the inline end so the composition mirrors under RTL.
+
+### The gathering band
+
+The full-bleed gold band under the hero is lifted from the invitation poster:
+three facts — date, time and venue, entry — in `--covenant-gold` with evergreen
+type, divided by hairline rules that only appear once the facts sit side by
+side. The date and entry are set in Newsreader as values; the time-and-venue
+line is a sentence, so it steps down to Archivo.
 
 ---
 
