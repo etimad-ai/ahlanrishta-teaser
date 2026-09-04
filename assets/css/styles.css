@@ -85,8 +85,6 @@ ul, ol { padding: 0; list-style: none; }
 img, svg { max-width: 100%; }
 a { color: inherit; }
 
-/* Arabic typography and reading rhythm. */
-
 /* The Arabic wordmark is a logotype, not translated copy — it keeps its face. */
 [lang="ar"] { font-family: var(--font-display-ar); }
 
@@ -122,12 +120,6 @@ a { color: inherit; }
   outline-offset: 3px;
   border-radius: 2px;
 }
-
-/* ==========================================================================
-   Bilingual switching
-   ========================================================================== */
-
-[data-lang-ar] { display: none; }
 
 /* ==========================================================================
    The Eternal Knot
@@ -185,8 +177,6 @@ a { color: inherit; }
   letter-spacing: -0.012em;
   color: var(--text-on-dark);
 }
-
-
 
 /* ==========================================================================
    Hero
