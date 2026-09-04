@@ -76,16 +76,29 @@ Plain static files with no build step, so the repository root *is* the site.
 `.github/workflows/deploy-pages.yml` publishes on every push. It uploads the
 checkout as-is and deploys it — there is nothing to build.
 
-Two things must be true on GitHub for it to succeed:
+**A repository admin has to switch Pages on once, by hand, before the first
+deploy can succeed.** This is not optional and the workflow cannot do it:
 
-1. **Settings → Pages → Source must be "GitHub Actions".** The workflow's
-   `configure-pages` step tries to set this itself, but it cannot if the
-   account lacks permission.
-2. **The repository is private, so Pages needs a paid plan.** GitHub Pages runs
-   on private repositories only under GitHub Pro, Team, or Enterprise. On a Free
-   organization the deploy fails until the repository is made public or the plan
-   is upgraded. Note that a Pages site built from a private repository is still
-   publicly readable unless you are on Enterprise Cloud with private Pages.
+> Settings → Pages → Build and deployment → Source → **GitHub Actions**
+
+The workflow sets `enablement: true`, which asks `configure-pages` to create the
+Pages site over the API. That was tried and GitHub refused it:
+
+```
+Create Pages site failed. Error: Resource not accessible by integration
+```
+
+The `GITHUB_TOKEN` an Actions run holds cannot create a Pages site, whatever
+`permissions:` the workflow declares — only a user with admin rights on the
+repository can. Once someone has done it, every later run finds the existing
+site and deploys normally, so this is a one-time step.
+
+**The repository is also private, which Pages requires a paid plan for.** Pages
+runs on private repositories only under GitHub Pro, Team, or Enterprise. On a
+Free organization the setting above will not be available, and the options are
+to make the repository public or upgrade the plan. Note also that a Pages site
+built from a private repository is still **publicly readable** — the repository
+stays private, the published site does not.
 
 The workflow deploys from `claude/ahlanrishta-teaser-website-oandgf`, the only
 branch in the repository today. Once this lands on a default branch, change the
