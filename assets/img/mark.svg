@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Ahlan Rishta — the Eternal Knot">
+  <title>Ahlan Rishta — the Eternal Knot</title>
+  <clipPath id="weave">
+    <polygon points="50,50 130,50 106.6,106.6"/>
+    <polygon points="50,50 50,130 -6.6,106.6"/>
+    <polygon points="50,50 -30,50 -6.6,-6.6"/>
+    <polygon points="50,50 50,-30 106.6,-6.6"/>
+  </clipPath>
+  <g fill="none" stroke-width="7" stroke-linejoin="round">
+    <rect x="21" y="21" width="58" height="58" rx="4" stroke="#F7F2E8" transform="rotate(45 50 50)"/>
+    <rect x="21" y="21" width="58" height="58" rx="4" stroke="#C6A15B"/>
+    <g clip-path="url(#weave)">
+      <rect x="21" y="21" width="58" height="58" rx="4" stroke="#F7F2E8" transform="rotate(45 50 50)"/>
+    </g>
+  </g>
+</svg>

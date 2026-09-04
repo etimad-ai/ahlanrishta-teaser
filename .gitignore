@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Build & tooling output
+dist/
+.cache/
+*.log
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

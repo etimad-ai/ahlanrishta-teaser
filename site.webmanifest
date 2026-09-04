@@ -1,0 +1,13 @@
+{
+  "name": "Ahlan Rishta",
+  "short_name": "Ahlan Rishta",
+  "description": "The trusted covenant platform for Muslim marriage.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0E362A",
+  "theme_color": "#0E362A",
+  "icons": [
+    { "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/assets/img/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
