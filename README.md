@@ -69,9 +69,47 @@ Opening `index.html` over `file://` works too.
 
 ## Deploying
 
-Plain static files, so it deploys as-is to Cloudflare Pages, Netlify, Vercel,
-GitHub Pages or S3. There is no build command; the publish directory is the
-repository root.
+Plain static files with no build step, so the repository root *is* the site.
+
+### GitHub Pages
+
+`.github/workflows/deploy-pages.yml` publishes on every push. It uploads the
+checkout as-is and deploys it — there is nothing to build.
+
+Two things must be true on GitHub for it to succeed:
+
+1. **Settings → Pages → Source must be "GitHub Actions".** The workflow's
+   `configure-pages` step tries to set this itself, but it cannot if the
+   account lacks permission.
+2. **The repository is private, so Pages needs a paid plan.** GitHub Pages runs
+   on private repositories only under GitHub Pro, Team, or Enterprise. On a Free
+   organization the deploy fails until the repository is made public or the plan
+   is upgraded. Note that a Pages site built from a private repository is still
+   publicly readable unless you are on Enterprise Cloud with private Pages.
+
+The workflow deploys from `claude/ahlanrishta-teaser-website-oandgf`, the only
+branch in the repository today. Once this lands on a default branch, change the
+`branches:` list in the workflow to that branch.
+
+The live URL is `https://etimad-ai.github.io/ahlanrishta-teaser/`.
+
+### Attaching ahlanrishta.com
+
+The canonical URL, `og:url`, `og:image`, `twitter:image`, and the JSON-LD `url`
+and `logo` all point at the GitHub Pages address, because that is where the site
+is actually served from today. When the custom domain is attached:
+
+1. Add a `CNAME` file at the repository root containing `ahlanrishta.com`.
+2. Point the DNS at GitHub Pages.
+3. Change those URLs in `index.html` back to `https://ahlanrishta.com/`.
+
+Paths inside the page are all relative, including in `site.webmanifest`, so
+nothing else needs touching when the domain changes.
+
+### Anywhere else
+
+It also deploys as-is to Cloudflare Pages, Netlify, Vercel or S3. There is no
+build command; the publish directory is the repository root.
 
 ---
 
