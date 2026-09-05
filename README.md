@@ -1,12 +1,38 @@
 # Ahlan Rishta — teaser
 
-An English-language teaser site with a launch countdown, the introductory
-gathering's details, and an early-invitation form, built to the *Ahlan Rishta
-Brand Guidelines, Edition 01 · 2026*.
+An English-language launch page with a countdown, an explanation of the
+platform, the introductory gathering's details, and a seat-reservation form,
+built to the *Ahlan Rishta Brand Guidelines, Edition 01 · 2026*.
 
 Launch and the gathering are the same day: **Friday, 2 October 2026, in
 Riyadh**. This first gathering is open to Indian Muslim families living in
 Saudi Arabia, and the page says so.
+
+## What the page has to answer
+
+The page is ordered around six questions a first-time visitor arrives with, and
+each has a section that answers it plainly. If you edit the copy, keep the
+answers intact:
+
+| Question | Where it is answered |
+| --- | --- |
+| What is Ahlan Rishta? | `#what` — the lede, the four "How it works" steps, and the is/is-not ledger |
+| Who is it for? | `#who` — three audience cards, plus an explicit *not for you if* |
+| What is happening in this program? | `#gathering` — "Run of show" |
+| Why should I attend? | `#gathering` — "Why come", three concrete outcomes |
+| What will happen there? | `#gathering` and `#faq` — format, seating, obligations |
+| How do I attend? | `#attend` — three steps, then the form |
+
+`#faq` exists to answer what the sections cannot: cost, whether to bring
+parents, what to bring, whether registration is required, and what happens to
+the details a guest gives. Those are the objections that stop a family
+registering, so they are answered on the page rather than by email.
+
+The claims in `#what` and `#gathering` describe the real product — verification
+layers, curated ranked matches, the staged introduction flow, private photos,
+expiring biodata links, and what the Premium plan actually contains. They are
+drawn from the platform's own `docs/FEATURES.md`. If the product changes, these
+are the lines that go stale first.
 
 Static HTML, CSS and JavaScript. No build step, no dependencies, no framework —
 open `index.html` and it runs.
@@ -15,26 +41,39 @@ open `index.html` and it runs.
 
 ## Before this goes live
 
-### Where invitation requests go
+### Where seat reservations go
 
 ```js
-var WAITLIST_ENDPOINT = "";
+var WAITLIST_ENDPOINT = "https://ahlanrishta-lead-capture-…run.app";
 ```
 
-While this is empty the form **falls back to opening the visitor's mail client**
-with a pre-filled message to `CONTACT_EMAIL`. That is deliberate — it fails
-visibly rather than silently discarding signups — but it is not what you want in
-production, and in a sandboxed preview the fallback cannot navigate at all, so
-the button appears to do nothing.
+Set it to any URL that accepts a JSON `POST`. If it is ever emptied, the form
+**falls back to opening the visitor's mail client** with a pre-filled message to
+`CONTACT_EMAIL`. That is deliberate — it fails visibly rather than silently
+discarding signups — but in a sandboxed preview the fallback cannot navigate at
+all, so the button appears to do nothing.
 
-Set it to any URL that accepts a JSON `POST` (a Formspree/Buttondown endpoint, a
-Cloudflare Worker, an API route). The body is:
+The agreed contract is two keys:
 
 ```json
-{ "email": "…", "role": "candidate" | "guardian" }
+{ "email": "…", "guest": "seeker" | "guardian" }
 ```
 
-A non-2xx response shows the failure message and re-enables the button.
+**The WhatsApp number is sent as an addition, not a change.** The copy promises
+that the venue and timing arrive by message, so the form collects a number — but
+we cannot know from the browser whether the service rejects unknown keys. So
+`submitRequest` posts `{ email, guest, phone }`, and if that comes back **4xx**
+— the shape a strict validator returns — it retries once with the two agreed
+keys alone. If the service stores `phone`, it is kept; if it does not, the seat
+is still reserved. A reservation is never lost to a field the page added.
+
+Once the service accepts `phone` for certain, the retry is dead weight and can
+go. A **5xx** is not retried and never quotes the server's message back to the
+guest; a 4xx message is quoted, because it is about their submission.
+
+The number field is optional and validated loosely on purpose — Saudi, Indian
+and Gulf numbers all arrive written differently, and the check only rejects
+input that could not be a phone number at all.
 
 ### The launch instant
 
@@ -46,13 +85,18 @@ var LAUNCH_ISO = "2026-10-02T00:00:00+03:00";
 daylight-saving correction is needed. Change this one value and the countdown
 and its `aria-live` summary both follow.
 
-The human-readable date is also written into the markup twice — search
-`index.html` for `Friday, 2 October 2026`, which appears under the countdown and
-in the gathering band — and into the OG card (see *Regenerating the OG image*).
+The human-readable date is also written into the markup by hand — search
+`index.html` for `Friday, 2 October 2026` and for `2 October`, which appear in
+the gold band, the gathering eyebrow, the "How to attend" steps, the form's
+confirmation copy in `main.js`, and the `Event` JSON-LD `startDate` — and into
+the OG card (see *Regenerating the OG image*).
 
-**Time and venue are deliberately withheld.** The band says they are shared with
-registered guests closer to the date, matching the invitation poster. When the
-venue is settled, replace that one `fact` in the band rather than adding a row.
+**Time and venue are deliberately withheld.** The band's *Entry* fact says they
+go to registered guests a few days before, the FAQ says why, and the run of show
+is written without timings. When the venue is settled, three things change: that
+`fact` in the band, the `Where in Riyadh` answer in the FAQ, and the
+`agenda__note` under the run of show. There is a comment in `index.html` at the
+agenda marking where timings belong.
 
 ---
 
@@ -100,9 +144,7 @@ to make the repository public or upgrade the plan. Note also that a Pages site
 built from a private repository is still **publicly readable** — the repository
 stays private, the published site does not.
 
-The workflow deploys from `claude/ahlanrishta-teaser-website-oandgf`, the only
-branch in the repository today. Once this lands on a default branch, change the
-`branches:` list in the workflow to that branch.
+The workflow deploys from `main`.
 
 The live URL is `https://etimad-ai.github.io/ahlanrishta-teaser/`.
 
@@ -170,19 +212,35 @@ rings to survive 16px browser chrome.
 ### The gathering band
 
 The full-bleed gold band under the hero is lifted from the invitation poster:
-three facts — date, time and venue, entry — in `--covenant-gold` with evergreen
-type, divided by hairline rules that only appear once the facts sit side by
-side. The date and entry are set in Newsreader as values; the time-and-venue
-line is a sentence, so it steps down to Archivo.
+four facts — date, where, who, entry — in `--covenant-gold` with evergreen type,
+divided by hairline rules that only appear once the facts sit side by side. It
+goes one column, then two at 640px, then four at 940px.
+
+*Date* and *Where* are short values, set in Newsreader. *Who* and *Entry* are
+sentences, so they take `fact__value--note` and step down to Archivo. **Who**
+earns its place in the band rather than only in `#who`: a visitor who is not an
+Indian Muslim family in Saudi Arabia should learn that in the first screenful,
+not three sections down.
 
 ---
 
 ## The hero
 
-Deliberately minimal: wordmark, headline, one line of copy, the countdown, the
-date, and a single call to action. No eyebrow, no section furniture, and no form
-— the invitation form lives in the gathering section, where the event details
-give it context, and the hero button is an anchor to it.
+Deliberately minimal: the mark, the Arabic logotype, headline, one line of copy,
+the countdown, the date, and the actions. No eyebrow, no section furniture, and no form — the
+reservation form lives in `#attend`, after the reasons to attend, and the hero
+button is an anchor to it.
+
+There are **two** actions, and only one of them is a button. *Reserve your seat*
+is the gold button; *What is Ahlan Rishta?* is a quiet underlined link to
+`#what`. Most first-time visitors do not yet know what they would be reserving a
+seat at, and giving them a second button would make the page ask twice instead
+of offering a way to find out. Resist promoting it.
+
+The lede is one short sentence on purpose. Everything the earlier, longer
+version tried to say now lives in `#what`, where there is room for it — and the
+hero's vertical budget is tight enough that a third line of lede pushes the
+call to action below the fold at 1280×800.
 
 The headline is the one loud element on the page, at `clamp(2.9rem, 8vw,
 6.5rem)` — 104px at desktop widths. Tight leading (`1.02`) and negative tracking
@@ -191,10 +249,42 @@ countdown carries no boxes, borders or fills: numerals, hairline dividers and
 small caps labels only.
 
 The vertical rhythm is tuned so the call to action clears the fold at both
-1440×900 and 1280×800. If you add anything to the hero, re-check that.
+1440×900 and 1280×800 — measured at **23px** to spare at 1440×900 and **50px**
+at 1280×800. 1440×900 is now the tighter of the two, because it sits just above
+the 880px breakpoint and so gets the full-size mark. If you add anything to the
+hero, lengthen the lede, grow the mark, or let the date line wrap to two lines,
+re-check both:
+
+```js
+const b = document.querySelector('.hero__actions').getBoundingClientRect().bottom;
+innerHeight - b   // must stay positive at 1280x800 AND at 1440x900
+```
 
 Two hairline arcs bleed off the upper corner, echoing the ring mark without
 competing with the wordmark.
+
+### The hero lockup
+
+The Eternal Knot opens the hero, with أهلاً رشتة beneath it — `.hero__lockup`
+holds the two as one unit, which is also what the entrance stagger animates
+(giving the mark and the logotype separate delays pulls the lockup apart as it
+arrives). The knot is the largest mark on the page by a wide margin: 87px tall
+against the header's 34px.
+
+Its `viewBox` is `0 0 100 56`, so **set width and let height follow** — a height
+or a square box letterboxes it.
+
+### Why the hero has a short-viewport block
+
+A large mark and a fold constraint do not both fit on an 800px-tall screen, so
+the hero is sized for a tall screen and compressed as a unit under
+`@media (max-height: 880px) and (min-width: 700px)`: the mark steps from 87px to
+65px tall, and the header padding, lockup gap, title margin, countdown and
+action margins all tighten together. Below 700px wide the block is off — a phone
+scrolls, and there is no fold to clear.
+
+Change the mark's size in **both** places or the two disagree, and re-measure
+after: the short-viewport case is the one that breaks.
 
 ## Voice
 
