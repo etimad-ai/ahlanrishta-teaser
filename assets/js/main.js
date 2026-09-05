@@ -23,12 +23,14 @@
   var WAITLIST_ENDPOINT = "https://ahlanrishta-lead-capture-795256461991.me-central1.run.app";
 
   /** Used by the mailto fallback and shown in the footer. */
-  var CONTACT_EMAIL = "hello@ahlanrishta.com";
+  var CONTACT_EMAIL = "contact@ahlanrishta.com";
 
   var COPY = {
-    sending: "Sending your request…",
-    success: "Thank you. We will write to you before the gathering.",
+    sending: "Reserving your seat…",
+    success: "Your seat is reserved. We will confirm shortly, and send the " +
+             "venue and timing a few days before 2 October.",
     invalidEmail: "Please enter a valid email address.",
+    invalidPhone: "Please enter a valid phone number, or leave it blank.",
     failure: "Something went wrong. Please email " + CONTACT_EMAIL + ".",
     mailto: "Opening your email app to complete the request…",
     open: "We are open."
@@ -123,16 +125,65 @@
   }
 
   /**
+   * Deliberately loose. The field is optional and international — Saudi,
+   * Indian and Gulf numbers are all expected, written however the guest writes
+   * them — so this only rejects input that could not be a number at all.
+   */
+  function isValidPhone(value) {
+    if (!value) return true;
+    return /^[+()\d][\d\s\-().]{6,24}$/.test(value);
+  }
+
+  /**
    * With no endpoint configured the request would otherwise be dropped in
    * silence, so hand it to the visitor's mail client instead.
    */
-  function sendByMail(email, role) {
-    var subject = "Early invitation request — Ahlan Rishta";
-    var body = "Email: " + email + "\nI am: " + role + "\n";
+  function sendByMail(email, phone, role) {
+    var subject = "Seat request — Ahlan Rishta gathering, 2 October";
+    var body = "Email: " + email +
+               "\nWhatsApp: " + (phone || "—") +
+               "\nAttending as: " + role + "\n";
     window.location.href = "mailto:" + CONTACT_EMAIL +
       "?subject=" + encodeURIComponent(subject) +
       "&body=" + encodeURIComponent(body);
     setNote(COPY.mailto, "ok");
+  }
+
+  function post(payload) {
+    return fetch(WAITLIST_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      return response.text().then(function (text) {
+        var data = null;
+        try { data = text ? JSON.parse(text) : null; } catch (_) { data = null; }
+        return { ok: response.ok, status: response.status, data: data };
+      });
+    });
+  }
+
+  /**
+   * The lead-capture service's agreed contract is `{ email, guest }`. The
+   * WhatsApp number is genuinely useful — confirmations go out by message —
+   * but we cannot know from here whether the service rejects unknown keys.
+   *
+   * So the number is sent as an addition, and a 4xx (the shape a strict
+   * validator returns) is retried once with the contract exactly as agreed.
+   * If the service takes `phone`, we keep it; if it does not, the seat is
+   * still reserved. A seat is never lost to a field we added.
+   */
+  function submitRequest(email, phone, role) {
+    var core = { email: email, guest: roleToGuest(role) };
+
+    if (!phone) return post(core);
+
+    var extended = { email: email, guest: roleToGuest(role), phone: phone };
+
+    return post(extended).then(function (result) {
+      if (result.ok || result.status < 400 || result.status >= 500) return result;
+      return post(core);
+    });
   }
 
   if (form) {
@@ -140,9 +191,11 @@
       event.preventDefault();
 
       var emailInput = form.querySelector("#email");
+      var phoneInput = form.querySelector("#phone");
       var roleInput = form.querySelector("#role");
       var submit = form.querySelector("button[type=submit]");
       var email = (emailInput.value || "").trim();
+      var phone = phoneInput ? (phoneInput.value || "").trim() : "";
       var role = roleInput.value;
 
       if (!isValidEmail(email)) {
@@ -151,31 +204,28 @@
         return;
       }
 
+      if (!isValidPhone(phone)) {
+        setNote(COPY.invalidPhone, "error");
+        phoneInput.focus();
+        return;
+      }
+
       if (!WAITLIST_ENDPOINT) {
-        sendByMail(email, role);
+        sendByMail(email, phone, role);
         return;
       }
 
       submit.disabled = true;
       setNote(COPY.sending, null);
 
-      fetch(WAITLIST_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, guest: roleToGuest(role) })
-      })
-        .then(function (response) {
-          return response.text().then(function (text) {
-            var data = null;
-            try { data = text ? JSON.parse(text) : null; } catch (_) { data = null; }
-            if (!response.ok) {
-              var msg = (data && (data.error || data.message)) || COPY.failure;
-              throw new Error(msg);
-            }
-            return data;
-          });
-        })
-        .then(function () {
+      submitRequest(email, phone, role)
+        .then(function (result) {
+          if (!result.ok) {
+            // A 4xx is about this submission and worth quoting; a 5xx is about
+            // the service, and its internals are not the guest's problem.
+            var reported = result.data && (result.data.error || result.data.message);
+            throw new Error(result.status < 500 && reported ? reported : COPY.failure);
+          }
           form.reset();
           setNote(COPY.success, "ok");
         })

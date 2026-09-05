@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ahlan Rishta — The trusted welcome to your rishta</title>
-<meta name="description" content="A private, verified, Islamic-values-based matrimonial platform for Indian Muslim expatriates and families living in Saudi Arabia. Opening Friday 2 October 2026 in Riyadh.">
+<meta name="description" content="A private, verified matrimonial platform for Indian Muslim families in Saudi Arabia. We open on Friday 2 October 2026, and introduce it in person the same afternoon in Riyadh. Free entry, by invitation.">
 <meta name="theme-color" content="#0E362A">
 <meta name="color-scheme" content="dark">
 
@@ -12,14 +12,14 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ahlan Rishta">
 <meta property="og:title" content="Ahlan Rishta — The trusted welcome to your rishta">
-<meta property="og:description" content="A private, verified, Islamic-values-based matrimonial platform for Indian Muslim families living in Saudi Arabia. Opening Friday 2 October 2026 in Riyadh.">
+<meta property="og:description" content="A private, verified matrimonial platform for Indian Muslim families in Saudi Arabia. We open Friday 2 October 2026 with an open afternoon in Riyadh — free, by invitation, candidates and parents both welcome.">
 <meta property="og:url" content="https://etimad-ai.github.io/ahlanrishta-teaser/">
 <meta property="og:image" content="https://etimad-ai.github.io/ahlanrishta-teaser/assets/img/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ahlan Rishta — The trusted welcome to your rishta">
-<meta name="twitter:description" content="A private, verified matrimonial platform for Indian Muslim families living in Saudi Arabia. Opening 2 October 2026.">
+<meta name="twitter:description" content="A private, verified matrimonial platform for Indian Muslim families in Saudi Arabia. Opening 2 October 2026, with an open afternoon in Riyadh.">
 <meta name="twitter:image" content="https://etimad-ai.github.io/ahlanrishta-teaser/assets/img/og-image.png">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -34,14 +34,46 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Ahlan Rishta",
-  "alternateName": "أهلاً رشتة",
-  "url": "https://etimad-ai.github.io/ahlanrishta-teaser/",
-  "logo": "https://etimad-ai.github.io/ahlanrishta-teaser/assets/img/mark.svg",
-  "description": "A private, verified, Islamic-values-based matrimonial platform for Indian Muslim expatriates and families living in Saudi Arabia.",
-  "areaServed": "SA",
-  "email": "hello@ahlanrishta.com"
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://etimad-ai.github.io/ahlanrishta-teaser/#organization",
+      "name": "Ahlan Rishta",
+      "alternateName": "أهلاً رشتة",
+      "url": "https://etimad-ai.github.io/ahlanrishta-teaser/",
+      "logo": "https://etimad-ai.github.io/ahlanrishta-teaser/assets/img/mark.svg",
+      "description": "A private, verified, Islamic-values-based matrimonial platform for Indian Muslim expatriates and families living in Saudi Arabia.",
+      "areaServed": "SA",
+      "email": "contact@ahlanrishta.com"
+    },
+    {
+      "@type": "Event",
+      "name": "Ahlan Rishta — introductory gathering",
+      "description": "An open afternoon in Riyadh on the day Ahlan Rishta opens. A walkthrough of the platform, open Q&A with the team, and a registration desk. Marriage seekers and their parents are both welcome. Free entry, by invitation.",
+      "startDate": "2026-10-02",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "url": "https://etimad-ai.github.io/ahlanrishta-teaser/#gathering",
+      "image": "https://etimad-ai.github.io/ahlanrishta-teaser/assets/img/og-image.png",
+      "organizer": { "@id": "https://etimad-ai.github.io/ahlanrishta-teaser/#organization" },
+      "location": {
+        "@type": "Place",
+        "name": "Riyadh — venue shared with registered guests",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Riyadh",
+          "addressCountry": "SA"
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "SAR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://etimad-ai.github.io/ahlanrishta-teaser/#attend"
+      }
+    }
+  ]
 }
 </script>
 </head>
@@ -85,6 +117,13 @@
       </svg>
       <span class="lockup__name">Ahlan Rishta</span>
     </a>
+
+    <!-- The page is long enough to need jumps; three, no more. -->
+    <nav class="site-nav" aria-label="Sections">
+      <a class="site-nav__link" href="#what">What it is</a>
+      <a class="site-nav__link" href="#gathering">The gathering</a>
+      <a class="site-nav__link site-nav__link--cta" href="#attend">Reserve a seat</a>
+    </nav>
   </header>
 
   <main id="main">
@@ -98,7 +137,14 @@
         </svg>
       </div>
 
-      <p class="hero__script" lang="ar" dir="rtl" aria-hidden="true">أهلاً رشتة</p>
+      <!-- Mark over logotype, as one unit: the stagger below animates the
+           lockup, not its two halves separately. -->
+      <div class="hero__lockup">
+        <svg class="hero__mark" viewBox="0 0 100 56" aria-hidden="true" focusable="false">
+          <use href="#mark-knot"></use>
+        </svg>
+        <p class="hero__script" lang="ar" dir="rtl" aria-hidden="true">أهلاً رشتة</p>
+      </div>
 
       <h1 class="hero__title" id="hero-title">The trusted welcome to your rishta</h1>
 
@@ -131,10 +177,17 @@
 
         <p class="sr-only" id="countdownSummary" aria-live="polite"></p>
 
-        <p class="countdown__date">Friday, 2 October 2026 &middot; Riyadh</p>
+        <!-- The clock counts to one moment that is two things at once; say so,
+             or visitors read it as a countdown to an app they cannot attend. -->
+        <p class="countdown__date">
+          Until we open — and until we meet in Riyadh, the same afternoon
+        </p>
       </div>
 
-      <a class="btn btn--gold hero__cta" href="#invite">Request an invitation</a>
+      <div class="hero__actions">
+        <a class="btn btn--gold hero__cta" href="#attend">Reserve your seat</a>
+        <a class="link-quiet" href="#what">What is Ahlan Rishta?</a>
+      </div>
     </section>
 
     <!-- ── Gathering details ──────────────────────────────────────────────── -->
@@ -146,82 +199,77 @@
           <dd class="fact__value">Friday, 2 October 2026</dd>
         </div>
         <div class="fact">
-          <dt class="fact__label">Time &amp; venue</dt>
-          <dd class="fact__value fact__value--note">Shared with registered guests closer to the date</dd>
+          <dt class="fact__label">Where</dt>
+          <dd class="fact__value">Riyadh</dd>
+        </div>
+        <div class="fact">
+          <dt class="fact__label">Who</dt>
+          <dd class="fact__value fact__value--note">Indian Muslim marriage seekers and their parents, living in Saudi Arabia</dd>
         </div>
         <div class="fact">
           <dt class="fact__label">Entry</dt>
-          <dd class="fact__value">Free, by invitation</dd>
+          <dd class="fact__value fact__value--note">Free, by invitation. Exact venue and timing go to registered guests a few days before.</dd>
         </div>
       </dl>
     </aside>
 
-    <!-- ── The gathering ──────────────────────────────────────────────────── -->
-    <section class="section section--evergreen" aria-labelledby="gathering-title">
+    <!-- ── What it is ─────────────────────────────────────────────────────── -->
+    <section class="section section--cream" id="what" aria-labelledby="what-title">
       <div class="section__inner">
-        <p class="eyebrow">Introductory gathering</p>
-        <h2 class="section__title section__title--light" id="gathering-title">
-          Come meet Ahlan Rishta
-        </h2>
+        <p class="eyebrow eyebrow--ink">Start here</p>
+        <h2 class="section__title" id="what-title">What Ahlan Rishta is</h2>
 
-        <div class="gathering">
-          <p class="gathering__lede">
-            An open afternoon for marriage seekers and their parents — meet the
-            team, see how it works, ask anything.
-          </p>
+        <p class="section__lede">
+          Ahlan Rishta is a private matrimonial platform built for Indian Muslim
+          families living in Saudi Arabia. Nobody browses a public directory.
+          Every profile is verified before it is seen, you receive a short ranked
+          list of genuine matches rather than a search box, and first contact
+          happens through a staged introduction your family can be part of from
+          the very beginning.
+        </p>
 
-          <ul class="gathering__list">
-            <li>Candidates and parents are both welcome.</li>
-            <li>A complimentary Premium package for everyone who attends.</li>
-            <li>Two minutes to register. We confirm your seat and send the venue
-              and timing by message.</li>
-          </ul>
+        <h3 class="subhead subhead--ink">How it works</h3>
 
-          <p class="gathering__who">
-            <span class="gathering__who-label">Who it is for</span>
-            This first gathering is open to Indian Muslim families living in
-            Saudi Arabia.
-          </p>
-        </div>
+        <ol class="steps steps--ink">
+          <li class="step">
+            <span class="step__num">01</span>
+            <h4 class="step__title">One profile, yours or your child's</h4>
+            <p class="step__body">You create it, or a parent or wali creates it on
+              your behalf. It covers deen and practice, family, education,
+              profession, your origin in India, your timeline for marriage, and
+              the things you will not compromise on.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">02</span>
+            <h4 class="step__title">Verification, layer by layer</h4>
+            <p class="step__body">Phone, selfie, family, education and employment
+              are checked one at a time — and an imam, employer or community elder
+              can vouch for you directly. Other members see your trust level. They
+              never see your documents.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">03</span>
+            <h4 class="step__title">Matches, not a search bar</h4>
+            <p class="step__body">A short, ranked, explainable list of verified
+              profiles, weighted towards deen and family compatibility. Photos stay
+              blurred and names stay masked until you choose otherwise. Paying never
+              moves anyone up the list.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">04</span>
+            <h4 class="step__title">Introductions, with family in the room</h4>
+            <p class="step__body">Interest opens a staged introduction — family
+              review, questions, family introduction, serious discussion. There is
+              no open chat, no numbers passed off-platform, and a decline is final
+              and quiet.</p>
+          </li>
+        </ol>
 
-        <!-- ── Invitation form ─────────────────────────────────────────────── -->
-        <form class="invite" id="invite" novalidate>
-          <h3 class="invite__title">Request an early invitation</h3>
-
-          <div class="invite__fields">
-            <div class="field">
-              <label class="sr-only" for="email">Email address</label>
-              <input class="field__input" type="email" id="email" name="email"
-                     autocomplete="email" required placeholder="Your email address">
-            </div>
-
-            <div class="field">
-              <label class="sr-only" for="role">I am</label>
-              <select class="field__input field__input--select" id="role" name="role">
-                <option value="candidate">Seeking marriage</option>
-                <option value="guardian">A parent or guardian</option>
-              </select>
-            </div>
-
-            <button class="btn btn--gold" type="submit">Request invitation</button>
-          </div>
-
-          <p class="invite__note" id="inviteNote" role="status">
-            Your details stay private. No marketing lists, nothing shared.
-          </p>
-        </form>
-      </div>
-    </section>
-
-    <!-- ── Positioning ────────────────────────────────────────────────────── -->
-    <section class="section section--cream" aria-labelledby="position-title">
-      <div class="section__inner">
-        <p class="eyebrow eyebrow--ink">Positioning</p>
-        <h2 class="section__title" id="position-title">What Ahlan Rishta is — and is not</h2>
+        <h3 class="subhead subhead--ink">In plain terms</h3>
 
         <div class="ledger">
           <div class="ledger__col ledger__col--are">
-            <h3 class="ledger__head">We are</h3>
+            <h4 class="ledger__head">We are</h4>
             <ul class="ledger__list">
               <li>Trust-first &amp; verified</li>
               <li>Family &amp; wali aware</li>
@@ -232,7 +280,7 @@
           </div>
 
           <div class="ledger__col ledger__col--not">
-            <h3 class="ledger__head">We are not</h3>
+            <h4 class="ledger__head">We are not</h4>
             <ul class="ledger__list ledger__list--not">
               <li>A dating app</li>
               <li>Swipe or photo-first</li>
@@ -245,12 +293,266 @@
       </div>
     </section>
 
-    <!-- ── Pillars ────────────────────────────────────────────────────────── -->
+    <!-- ── Who it is for ──────────────────────────────────────────────────── -->
+    <section class="section section--evergreen" id="who" aria-labelledby="who-title">
+      <div class="section__inner">
+        <p class="eyebrow">Who it is for</p>
+        <h2 class="section__title section__title--light" id="who-title">
+          Come if this sounds like you
+        </h2>
+
+        <p class="section__lede section__lede--light">
+          This first gathering is for Indian Muslim families living in Saudi
+          Arabia. If one of these three describes your household, the afternoon
+          is worth your time.
+        </p>
+
+        <ul class="audience">
+          <li class="audience__card">
+            <h3 class="audience__title">Marriage seekers</h3>
+            <p class="audience__body">Working or studying in the Kingdom, serious
+              about nikah within a defined timeline, and tired of searching through
+              WhatsApp forwards, relatives and unverified listings.</p>
+          </li>
+          <li class="audience__card">
+            <h3 class="audience__title">Parents, guardians and walis</h3>
+            <p class="audience__body">Searching on behalf of a son or daughter,
+              whether they are here in the Kingdom or back home in India. You can
+              hold and manage the account yourself — a first-class path here,
+              not a workaround.</p>
+          </li>
+          <li class="audience__card">
+            <h3 class="audience__title">Families searching India and the Gulf at once</h3>
+            <p class="audience__body">Roots and community in India, life and work in
+              Saudi Arabia, and a search that has to run in both directions —
+              native place, biradari, and relocation all weighed together.</p>
+          </li>
+        </ul>
+
+        <p class="caveat">
+          <span class="caveat__label">Honestly, not for you if</span>
+          You are looking for casual dating, you are not ready to marry within a
+          defined timeline, or you would rather stay anonymous than be verified.
+          We would rather say that now than take your Friday afternoon.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── The gathering ──────────────────────────────────────────────────── -->
+    <section class="section section--cream" id="gathering" aria-labelledby="gathering-title">
+      <div class="section__inner">
+        <p class="eyebrow eyebrow--ink">The gathering · Friday, 2 October 2026</p>
+        <h2 class="section__title" id="gathering-title">What happens on the day</h2>
+
+        <p class="section__lede">
+          An open afternoon in Riyadh on the day we open. Come as a candidate,
+          come as a parent, or come as both — most families will. It is a room,
+          a walkthrough, and honest answers, not a sales pitch.
+        </p>
+
+        <div class="day">
+
+          <div class="day__col">
+            <h3 class="subhead subhead--ink">Why come</h3>
+            <ol class="reasons">
+              <li class="reason">
+                <h4 class="reason__title">See it working, not a screenshot</h4>
+                <p class="reason__body">A live walkthrough on the real product —
+                  how verification is checked, how matches are chosen and explained,
+                  what your privacy controls actually do, and how an introduction
+                  unfolds stage by stage.</p>
+              </li>
+              <li class="reason">
+                <h4 class="reason__title">Ask what you would never type into a form</h4>
+                <p class="reason__body">How much of my profile can my family see?
+                  What happens to my photographs? Who checks a claim of employment?
+                  What if I decline someone from my own community? The team answers
+                  in the room.</p>
+              </li>
+              <li class="reason">
+                <h4 class="reason__title">Leave registered, with Premium free</h4>
+                <p class="reason__body">Everyone who attends gets a complimentary
+                  Premium membership: ten matches instead of five, the compatibility
+                  reasoning behind each one, and ten private, expiring biodata links
+                  instead of one.</p>
+              </li>
+            </ol>
+          </div>
+
+          <div class="day__col">
+            <h3 class="subhead subhead--ink">Run of show</h3>
+            <!-- Timings are deliberately absent: the venue is not settled yet, and
+                 they go out with the confirmation. Add them here once fixed. -->
+            <ol class="agenda">
+              <li class="agenda__item">Welcome, and who is in the room</li>
+              <li class="agenda__item">Introducing Ahlan Rishta — why we built it, and who it is for</li>
+              <li class="agenda__item">A walkthrough of the platform — verification, matches, privacy, and how an introduction unfolds</li>
+              <li class="agenda__item">Open Q&amp;A with the team</li>
+              <li class="agenda__item">Registration desk — set up your account and claim the Premium package</li>
+              <li class="agenda__item">Tea, and time to speak to the team one to one</li>
+            </ol>
+            <p class="agenda__note">
+              Exact timings go out with your venue confirmation. Candidates and
+              parents sit in the same session; there is no separate track, and no
+              obligation to register on the day.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── How to attend ──────────────────────────────────────────────────── -->
+    <section class="section section--evergreen" id="attend" aria-labelledby="attend-title">
+      <div class="section__inner">
+        <p class="eyebrow">How to attend</p>
+        <h2 class="section__title section__title--light" id="attend-title">
+          Three steps, about two minutes
+        </h2>
+
+        <ol class="steps steps--light steps--tight">
+          <li class="step">
+            <span class="step__num">01</span>
+            <h3 class="step__title">Register below</h3>
+            <p class="step__body">Your email, a WhatsApp number, and whether you
+              are coming as a candidate or as a parent.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">02</span>
+            <h3 class="step__title">We confirm your seat</h3>
+            <p class="step__body">A short confirmation from us, usually within a
+              day or two. Seating is limited, so please register the people who
+              are actually coming.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">03</span>
+            <h3 class="step__title">Venue and timing follow</h3>
+            <p class="step__body">Sent to registered guests a few days before
+              2 October, once the room is matched to the number of confirmed
+              seats.</p>
+          </li>
+        </ol>
+
+        <!-- ── Invitation form ─────────────────────────────────────────────── -->
+        <form class="invite" id="invite" novalidate>
+          <h3 class="invite__title">Reserve your seat</h3>
+
+          <div class="invite__fields">
+            <div class="field">
+              <label class="sr-only" for="email">Email address</label>
+              <input class="field__input" type="email" id="email" name="email"
+                     autocomplete="email" required placeholder="Your email address">
+            </div>
+
+            <div class="field">
+              <label class="sr-only" for="phone">WhatsApp number</label>
+              <input class="field__input" type="tel" id="phone" name="phone"
+                     autocomplete="tel" inputmode="tel"
+                     placeholder="WhatsApp number (optional)">
+            </div>
+
+            <div class="field">
+              <label class="sr-only" for="role">I am attending as</label>
+              <select class="field__input field__input--select" id="role" name="role">
+                <option value="candidate">Seeking marriage</option>
+                <option value="guardian">A parent or guardian</option>
+              </select>
+            </div>
+
+            <button class="btn btn--gold" type="submit">Reserve my seat</button>
+          </div>
+
+          <p class="invite__note" id="inviteNote" role="status">
+            Free, by invitation. Your details stay with us — used only to confirm
+            your seat and send the venue. No marketing lists, nothing shared.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ── Questions ──────────────────────────────────────────────────────── -->
+    <section class="section section--cream" id="faq" aria-labelledby="faq-title">
+      <div class="section__inner">
+        <p class="eyebrow eyebrow--ink">Before you register</p>
+        <h2 class="section__title" id="faq-title">Questions families ask us</h2>
+
+        <div class="faq">
+          <details class="qa">
+            <summary class="qa__q">Is it free to attend?</summary>
+            <p class="qa__a">Yes. Entry is free and by invitation — you register,
+              we confirm your seat. The complimentary Premium membership every
+              attendee receives is free as well.</p>
+          </details>
+
+          <details class="qa">
+            <summary class="qa__q">Can I bring my parents? Should I?</summary>
+            <p class="qa__a">Yes, and many people will. Candidates and guardians are
+              both welcome, together or separately, and they sit in the same
+              session. If your family will be involved in the decision, bringing
+              them saves you explaining the whole thing twice.</p>
+          </details>
+
+          <details class="qa">
+            <summary class="qa__q">Do I have to sign up to attend?</summary>
+            <p class="qa__a">No. Come, watch the walkthrough, ask your questions and
+              leave. The registration desk on the day is there if you want it, not
+              a condition of entry.</p>
+          </details>
+
+          <details class="qa">
+            <summary class="qa__q">Do I need to bring anything?</summary>
+            <p class="qa__a">Nothing is required. If you would like to begin
+              verification at the desk, bringing your iqama — and, if you have
+              them, education or employment documents — will make that quicker.
+              Nothing you bring is kept or copied without your say-so.</p>
+          </details>
+
+          <details class="qa">
+            <summary class="qa__q">Is this only for Indian Muslim families?</summary>
+            <p class="qa__a">This first gathering and our opening phase are focused
+              on Indian Muslim families living in Saudi Arabia. That focus is
+              deliberate — it is how a small, verified pool stays genuinely
+              relevant. We expect to widen across the Gulf after launch.</p>
+          </details>
+
+          <details class="qa">
+            <summary class="qa__q">Where in Riyadh is it, and what time?</summary>
+            <p class="qa__a">We share the exact venue and timing with registered
+              guests a few days beforehand, once we know how many seats are
+              confirmed and can match the room to the number. It is an afternoon
+              gathering.</p>
+          </details>
+
+          <details class="qa">
+            <summary class="qa__q">What happens to the details I give you?</summary>
+            <p class="qa__a">They stay with us. Your email and number are used to
+              confirm your seat and send the venue and timing — nothing else. No
+              marketing lists, no sharing with third parties, and no profile is
+              created for you unless you create one yourself.</p>
+          </details>
+
+          <details class="qa">
+            <summary class="qa__q">Is this a dating app?</summary>
+            <p class="qa__a">No. There is no swiping, no public browsing, and no open
+              chat. Profiles are verified before anyone sees them, photos are
+              private by default, and first contact is a staged introduction your
+              family can be part of from the first step.</p>
+          </details>
+        </div>
+
+        <p class="faq__more">
+          Something we have not answered?
+          <a href="mailto:contact@ahlanrishta.com">Write to us</a> — a person reads it.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── Promises ───────────────────────────────────────────────────────── -->
     <section class="section section--evergreen" aria-labelledby="pillars-title">
       <div class="section__inner">
-        <p class="eyebrow">Brand pillars</p>
+        <p class="eyebrow">Our promises</p>
         <h2 class="section__title section__title--light" id="pillars-title">
-          Six promises we design around
+          Six things we will not trade away
         </h2>
 
         <ol class="pillars">
@@ -299,6 +601,7 @@
       <blockquote class="closing__quote" id="closing-title">
         A serious match begins with trust.
       </blockquote>
+      <a class="btn btn--ink closing__cta" href="#attend">Reserve your seat</a>
     </section>
 
   </main>
