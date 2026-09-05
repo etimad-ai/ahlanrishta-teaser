@@ -20,7 +20,7 @@
   var LAUNCH_ISO = "2026-10-02T00:00:00+03:00";
 
   /** POST target for invitation requests. Empty string = mailto fallback. */
-  var WAITLIST_ENDPOINT = "";
+  var WAITLIST_ENDPOINT = "https://ahlanrishta-lead-capture-795256461991.me-central1.run.app";
 
   /** Used by the mailto fallback and shown in the footer. */
   var CONTACT_EMAIL = "hello@ahlanrishta.com";
@@ -33,6 +33,11 @@
     mailto: "Opening your email app to complete the request…",
     open: "We are open."
   };
+
+  /** Maps form role values to the API's `guest` enum. */
+  function roleToGuest(role) {
+    return role === "guardian" ? "guardian" : "seeker";
+  }
 
   /* ---------------------------------------------------------------------
    * Countdown
@@ -157,15 +162,34 @@
       fetch(WAITLIST_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, role: role })
+        body: JSON.stringify({ email: email, guest: roleToGuest(role) })
       })
         .then(function (response) {
-          if (!response.ok) throw new Error("Request failed: " + response.status);
+          return response.text().then(function (text) {
+            var data = null;
+            try { data = text ? JSON.parse(text) : null; } catch (_) { data = null; }
+            if (!response.ok) {
+              var msg = (data && (data.error || data.message)) || COPY.failure;
+              throw new Error(msg);
+            }
+            return data;
+          });
+        })
+        .then(function () {
           form.reset();
           setNote(COPY.success, "ok");
         })
-        .catch(function () {
-          setNote(COPY.failure, "error");
+        .catch(function (err) {
+          var message = (err && err.message) ? err.message : COPY.failure;
+          // Surface invalid-email from API as inline validation.
+          if (message.toLowerCase().indexOf("invalid email") !== -1) {
+            setNote(COPY.invalidEmail, "error");
+            emailInput.focus();
+          } else if (message === COPY.failure) {
+            setNote(COPY.failure, "error");
+          } else {
+            setNote(message, "error");
+          }
         })
         .then(function () {
           submit.disabled = false;
