@@ -1,38 +1,38 @@
-# Ahlan Rishta — teaser
+# Ahlan Rishta — coming soon
 
-An English-language launch page with a countdown, an explanation of the
-platform, the introductory gathering's details, and a seat-reservation form,
-built to the *Ahlan Rishta Brand Guidelines, Edition 01 · 2026*.
+A single-page coming-soon site for **Indian Muslim families in India and across
+the Gulf** — India, Saudi Arabia, the UAE, Qatar, Kuwait, Bahrain and Oman. The mark, what the
+platform is, the six things it will not trade away, a notify-me form, and how
+to reach us. Built to the
+*Ahlan Rishta Brand Guidelines, Edition 01 · 2026*.
 
-Launch and the gathering are the same day: **Friday, 2 October 2026, in
-Riyadh**. This first gathering is open to Indian Muslim families living in
-Saudi Arabia, and the page says so.
+**There is no launch date on the page, and that is deliberate.** No date is
+fixed, and a missed date on a trust-first brand costs more than the urgency it
+would buy. The status badge says *Coming soon* and nothing more. If a date is
+ever committed to, it goes in the badge and in `COPY.success` — do not put one
+in only one of them.
 
 ## What the page has to answer
 
-The page is ordered around six questions a first-time visitor arrives with, and
-each has a section that answers it plainly. If you edit the copy, keep the
-answers intact:
+Four questions, in this order, each with the section that answers it. If you
+edit the copy, keep the answers intact:
 
 | Question | Where it is answered |
 | --- | --- |
-| What is Ahlan Rishta? | `#what` — the lede, the four "How it works" steps, and the is/is-not ledger |
-| Who is it for? | `#who` — three audience cards, plus an explicit *not for you if* |
-| What is happening in this program? | `#gathering` — "Run of show" |
-| Why should I attend? | `#gathering` — "Why come", three concrete outcomes |
-| What will happen there? | `#gathering` and `#faq` — format, seating, obligations |
-| How do I attend? | `#attend` — three steps, then the form |
+| What is Ahlan Rishta? | the hero lede, then `#features`' own lede |
+| Who is it for? | the hero lede, then the markets band naming all seven countries |
+| What will it do? | `#features` — the six pillars |
+| What is it *not*? | `#features` — the is/is-not ledger |
+| How do I hear when it opens? | `#notify`, and `contact@ahlanrishta.com` in the footer |
 
-`#faq` exists to answer what the sections cannot: cost, whether to bring
-parents, what to bring, whether registration is required, and what happens to
-the details a guest gives. Those are the objections that stop a family
-registering, so they are answered on the page rather than by email.
+The is/is-not ledger earns its place by answering the single question this
+audience arrives with — *is this a dating app?* — in one glance, without making
+anyone read six pillars first.
 
-The claims in `#what` and `#gathering` describe the real product — verification
-layers, curated ranked matches, the staged introduction flow, private photos,
-expiring biodata links, and what the Premium plan actually contains. They are
-drawn from the platform's own `docs/FEATURES.md`. If the product changes, these
-are the lines that go stale first.
+The pillar copy describes the real product: verification layers, curated ranked
+matches, the staged introduction flow, private photos and expiring biodata
+links. It is drawn from the platform's own `docs/FEATURES.md`. If the product
+changes, these are the lines that go stale first.
 
 Static HTML, CSS and JavaScript. No build step, no dependencies, no framework —
 open `index.html` and it runs.
@@ -41,7 +41,7 @@ open `index.html` and it runs.
 
 ## Before this goes live
 
-### Where seat reservations go
+### Where notify requests go
 
 ```js
 var WAITLIST_ENDPOINT = "https://ahlanrishta-lead-capture-…run.app";
@@ -59,44 +59,13 @@ The agreed contract is two keys:
 { "email": "…", "guest": "seeker" | "guardian" }
 ```
 
-**The WhatsApp number is sent as an addition, not a change.** The copy promises
-that the venue and timing arrive by message, so the form collects a number — but
-we cannot know from the browser whether the service rejects unknown keys. So
-`submitRequest` posts `{ email, guest, phone }`, and if that comes back **4xx**
-— the shape a strict validator returns — it retries once with the two agreed
-keys alone. If the service stores `phone`, it is kept; if it does not, the seat
-is still reserved. A reservation is never lost to a field the page added.
+A **5xx** is never quoted back to the visitor — the service's internals are not
+their problem, so they get `COPY.failure` and the contact address. A **4xx**
+*is* quoted, because it is about their submission; an "invalid email" reply is
+turned back into inline field validation.
 
-Once the service accepts `phone` for certain, the retry is dead weight and can
-go. A **5xx** is not retried and never quotes the server's message back to the
-guest; a 4xx message is quoted, because it is about their submission.
-
-The number field is optional and validated loosely on purpose — Saudi, Indian
-and Gulf numbers all arrive written differently, and the check only rejects
-input that could not be a phone number at all.
-
-### The launch instant
-
-```js
-var LAUNCH_ISO = "2026-10-02T00:00:00+03:00";
-```
-
-`+03:00` is Arabian Standard Time, which the GCC observes year-round, so no
-daylight-saving correction is needed. Change this one value and the countdown
-and its `aria-live` summary both follow.
-
-The human-readable date is also written into the markup by hand — search
-`index.html` for `Friday, 2 October 2026` and for `2 October`, which appear in
-the gold band, the gathering eyebrow, the "How to attend" steps, the form's
-confirmation copy in `main.js`, and the `Event` JSON-LD `startDate` — and into
-the OG card (see *Regenerating the OG image*).
-
-**Time and venue are deliberately withheld.** The band's *Entry* fact says they
-go to registered guests a few days before, the FAQ says why, and the run of show
-is written without timings. When the venue is settled, three things change: that
-`fact` in the band, the `Where in Riyadh` answer in the FAQ, and the
-`agenda__note` under the run of show. There is a comment in `index.html` at the
-agenda marking where timings belong.
+`role` in the markup and `guest` in the payload are the same thing under two
+names — `roleToGuest()` is the only place that mapping lives.
 
 ---
 
@@ -146,20 +115,18 @@ stays private, the published site does not.
 
 The workflow deploys from `main`.
 
-The live URL is `https://etimad-ai.github.io/ahlanrishta-teaser/`.
+The live URL is `https://ahlanrishta.com/` (see *ahlanrishta.com* below).
 
-### Attaching ahlanrishta.com
+### ahlanrishta.com
 
-The canonical URL, `og:url`, `og:image`, `twitter:image`, and the JSON-LD `url`
-and `logo` all point at the GitHub Pages address, because that is where the site
-is actually served from today. When the custom domain is attached:
-
-1. Add a `CNAME` file at the repository root containing `ahlanrishta.com`.
-2. Point the DNS at GitHub Pages.
-3. Change those URLs in `index.html` back to `https://ahlanrishta.com/`.
+The domain is attached: `CNAME` at the repository root holds `ahlanrishta.com`,
+and the canonical URL, `og:url`, `og:image`, `twitter:image` and the JSON-LD
+`url` and `logo` all point at `https://ahlanrishta.com/`. They used to point at
+the GitHub Pages address; if you ever see that address reappear in `index.html`,
+it is a regression, not a fallback.
 
 Paths inside the page are all relative, including in `site.webmanifest`, so
-nothing else needs touching when the domain changes.
+nothing else needs touching if the domain changes again.
 
 ### Anywhere else
 
@@ -209,59 +176,57 @@ The mark's viewBox is `0 0 100 56`, so size it with `width` and `height: auto`;
 a square box would letterbox it. The favicon and app icon use tighter, heavier
 rings to survive 16px browser chrome.
 
-### The gathering band
-
-The full-bleed gold band under the hero is lifted from the invitation poster:
-four facts — date, where, who, entry — in `--covenant-gold` with evergreen type,
-divided by hairline rules that only appear once the facts sit side by side. It
-goes one column, then two at 640px, then four at 940px.
-
-*Date* and *Where* are short values, set in Newsreader. *Who* and *Entry* are
-sentences, so they take `fact__value--note` and step down to Archivo. **Who**
-earns its place in the band rather than only in `#who`: a visitor who is not an
-Indian Muslim family in Saudi Arabia should learn that in the first screenful,
-not three sections down.
-
 ---
+
+## Page structure
+
+Five bands, alternating dark and light so each reads as its own thing:
+
+| Band | Surface | Carries |
+| --- | --- | --- |
+| `.hero` | `--evergreen` | mark, badge, headline, one line, one button |
+| `.markets-band` | `--evergreen-dark` | the seven markets |
+| `#features` | `--warm-cream` | six pillars, then the is/is-not ledger |
+| `#notify` | `--evergreen-deep` | the form |
+| `.closing` | `--warm-cream` | the closing line |
+
+The hero used to carry the markets and the form as well, and it was crowded.
+If you add anything back to it, put it in a band instead.
 
 ## The hero
 
-Deliberately minimal: the mark, the Arabic logotype, headline, one line of copy,
-the countdown, the date, and the actions. No eyebrow, no section furniture, and no form — the
-reservation form lives in `#attend`, after the reasons to attend, and the hero
-button is an anchor to it.
+The mark, the Arabic logotype, the *Coming soon* badge, the headline, one
+sentence, and one button that anchors to `#notify`. Nothing else — the form
+lives in its own band now, and the button is the only route to it besides the
+header pill.
 
-There are **two** actions, and only one of them is a button. *Reserve your seat*
-is the gold button; *What is Ahlan Rishta?* is a quiet underlined link to
-`#what`. Most first-time visitors do not yet know what they would be reserving a
-seat at, and giving them a second button would make the page ask twice instead
-of offering a way to find out. Resist promoting it.
+**The background is flat `--evergreen`, deliberately.** There used to be a gold
+radial wash pooled behind the wordmark; it was removed. The primary colour is
+solid from the top of the header to the bottom of the hero, and the headline
+carries the composition on its own. Do not reintroduce a gradient there.
 
-The lede is one short sentence on purpose. Everything the earlier, longer
-version tried to say now lives in `#what`, where there is room for it — and the
-hero's vertical budget is tight enough that a third line of lede pushes the
-call to action below the fold at 1280×800.
+The lede is one sentence at `46ch`. Everything it used to carry lives in
+`#features`.
 
-The headline is the one loud element on the page, at `clamp(2.9rem, 8vw,
-6.5rem)` — 104px at desktop widths. Tight leading (`1.02`) and negative tracking
-(`-0.042em`) are what let a serif that large still read as composed. The
-countdown carries no boxes, borders or fills: numerals, hairline dividers and
-small caps labels only.
+### The markets band
 
-The vertical rhythm is tuned so the call to action clears the fold at both
-1440×900 and 1280×800 — measured at **23px** to spare at 1440×900 and **50px**
-at 1280×800. 1440×900 is now the tighter of the two, because it sits just above
-the 880px breakpoint and so gets the full-size mark. If you add anything to the
-hero, lengthen the lede, grow the mark, or let the date line wrap to two lines,
-re-check both:
+A slim full-bleed strip under the hero, darker than the hero it sits beneath,
+with hairlines top and bottom — a rule drawn across the page that happens to
+carry seven names, not another block competing with the headline. Label and
+names sit side by side from 860px and stack below it.
 
-```js
-const b = document.querySelector('.hero__actions').getBoundingClientRect().bottom;
-innerHeight - b   // must stay positive at 1280x800 AND at 1440x900
-```
+Seven country names, small caps, separated by **space only**. Hairline
+separators were tried and dropped: a `::before` rule lands at the start of a
+wrapped row on a phone, and CSS has no selector for "first item on this line".
+The names wrap to two centred rows at 375px. If you add an eighth market,
+re-check 375px.
 
-Two hairline arcs bleed off the upper corner, echoing the ring mark without
-competing with the wordmark.
+### The notify band
+
+`#notify` is on the **section**, because it is the anchor target. The form
+inside it has no id, so `main.js` reaches it with `document.querySelector("#notify form")`.
+Selecting `#notify` itself would appear to work — submit bubbles — and then
+fail on `form.reset()`. Do not change that lookup to `getElementById`.
 
 ### The hero lockup
 
@@ -279,26 +244,24 @@ or a square box letterboxes it.
 A large mark and a fold constraint do not both fit on an 800px-tall screen, so
 the hero is sized for a tall screen and compressed as a unit under
 `@media (max-height: 880px) and (min-width: 700px)`: the mark steps from 87px to
-65px tall, and the header padding, lockup gap, title margin, countdown and
-action margins all tighten together. Below 700px wide the block is off — a phone
-scrolls, and there is no fold to clear.
+65px tall, and the header padding, lockup gap and title margin tighten together.
+Below 700px wide the block is off — a phone scrolls, and there is no fold to
+clear.
 
 Change the mark's size in **both** places or the two disagree, and re-measure
 after: the short-viewport case is the one that breaks.
 
 ## Voice
 
-The guidelines rule out false urgency ("Only 3 spots left — act now!"), so the
-countdown is written as an announcement rather than a scarcity device. There is
-no "hurry", no seat count and no artificial deadline anywhere in the copy.
-Section copy is taken from the guidelines' positioning, pillars and messaging
-pages.
+The guidelines rule out false urgency ("Only 3 spots left — act now!"). There is
+no "hurry", no counter, no waitlist position and no artificial deadline anywhere
+in the copy — the badge announces, it does not pressure. Section copy is taken
+from the guidelines' positioning, pillars and messaging pages.
 
 ## Accessibility
 
-- Countdown digits are `aria-hidden`; a visually hidden `aria-live="polite"`
-  summary announces the remaining time **once a minute** rather than once a
-  second, so screen readers are informed without being flooded.
+- The form's note is `role="status"`, so validation errors and the confirmation
+  are announced without moving focus.
 - Skip link, visible focus rings, labelled form fields, and a
   `prefers-reduced-motion` guard around every animation.
 - Layout still uses logical properties throughout. Nothing depends on it today,
@@ -315,10 +278,11 @@ editing the PNG — rebuild it from the hero's type and colour tokens.
 ## Layout
 
 ```
+CNAME                   ahlanrishta.com
 index.html              markup and copy, plus the Eternal Knot symbol
 site.webmanifest        PWA metadata
 assets/css/styles.css   brand tokens + all styling
-assets/js/main.js       countdown and invitation form
+assets/js/main.js       the notify-me form
 assets/img/
   mark.svg              the Eternal Knot, transparent, for press and partners
   favicon.svg           evergreen tile, tuned for 16px

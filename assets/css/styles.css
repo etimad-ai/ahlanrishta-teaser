@@ -225,23 +225,6 @@ a { color: inherit; }
   overflow: hidden;
 }
 
-/* Gold light pooling behind the wordmark. */
-.hero::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -18%;
-  width: min(180vw, 1000px);
-  aspect-ratio: 1;
-  transform: translateX(-50%);
-  z-index: -2;
-  pointer-events: none;
-  background: radial-gradient(circle at center,
-              rgba(198, 161, 91, 0.19) 0%,
-              rgba(198, 161, 91, 0.07) 34%,
-              transparent 66%);
-}
-
 /* Two hairline arcs bleeding off the upper corner, echoing the ring mark
    without competing with the wordmark. Anchored to the inline end so the
    composition mirrors under RTL. */
@@ -300,6 +283,45 @@ a { color: inherit; }
 
 /* The one loud element on the page. Tight leading and negative tracking are
    what let a serif this large still read as composed rather than shouted. */
+/* Coming soon, said once. A hairline pill rather than a filled chip: the
+   gold is the accent colour, and a solid block of it here would out-shout the
+   wordmark directly above. */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: clamp(1.5rem, 3.5vh, 2.25rem);
+  padding: 0.45rem 1.1rem 0.45rem 0.95rem;
+  border: 1px solid rgba(198, 161, 91, 0.42);
+  border-radius: 999px;
+  background: rgba(198, 161, 91, 0.07);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--covenant-gold);
+}
+
+.status__dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--covenant-gold);
+}
+
+/* The halo, not the dot, is what pulses — a moving dot reads as a loading
+   spinner, a slow halo reads as a light left on. */
+.status__dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--covenant-gold);
+  opacity: 0;
+}
+
 .hero__title {
   font-family: var(--font-display);
   font-size: clamp(2.9rem, 8vw, 6.5rem);
@@ -313,41 +335,18 @@ a { color: inherit; }
   text-wrap: balance;
 }
 
+.hero__cta {
+  margin-top: clamp(1.75rem, 4vh, 2.75rem);
+}
+
 .hero__lede {
-  max-width: 44ch;
+  max-width: 46ch;
   margin-inline: auto;
   font-size: clamp(0.98rem, 1.6vw, 1.08rem);
   color: var(--text-on-dark-soft);
   text-wrap: pretty;
 }
 
-.hero__actions {
-  margin-top: clamp(1.5rem, 3.6vh, 2.5rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.15rem;
-}
-@media (min-width: 520px) {
-  .hero__actions { flex-direction: row; justify-content: center; gap: 1.75rem; }
-}
-
-/* The secondary route, for anyone who does not yet know what they would be
-   reserving a seat at. Deliberately not a second button. */
-.link-quiet {
-  font-size: 0.95rem;
-  color: var(--text-on-dark-soft);
-  text-decoration: none;
-  border-bottom: 1px solid var(--rule-on-dark);
-  padding-bottom: 2px;
-  transition: color 0.18s var(--ease), border-color 0.18s var(--ease);
-}
-.link-quiet:hover { color: var(--text-on-dark); border-bottom-color: var(--covenant-gold); }
-
-.hero__cta {
-  display: inline-block;
-  text-decoration: none;
-}
 
 /* The hero is sized for a tall screen. On a short one — a 1280x800 laptop is
    the tightest case we design for — it compresses as a unit so the call to
@@ -359,87 +358,87 @@ a { color: inherit; }
   .hero__mark { width: clamp(96px, 9vw, 118px); }
   .hero__lockup { gap: 0.6rem; margin-bottom: 0.9rem; }
   .hero__title { margin-bottom: clamp(1rem, 2vh, 1.4rem); }
-  .countdown { margin-top: clamp(1.5rem, 3vh, 2.25rem); }
-  .countdown__date { margin-top: clamp(1rem, 2vh, 1.4rem); }
-  .hero__actions { margin-top: clamp(1.25rem, 2.5vh, 1.75rem); }
 }
 
 /* ==========================================================================
-   Countdown — an announcement, not a scarcity clock
+   Markets band — a slim strip under the hero, not a section
    ========================================================================== */
 
-.countdown { margin-top: clamp(2.5rem, 5vh, 4rem); }
+/* Darker than the hero it sits under, with hairlines top and bottom: it reads
+   as a rule drawn across the page that happens to carry seven names, rather
+   than as another block competing with the headline above it. */
+.markets-band {
+  background: var(--evergreen-dark);
+  border-block: 1px solid var(--rule-on-dark);
+  padding-block: clamp(1.5rem, 3.5vw, 2.1rem);
+  padding-inline: var(--gutter);
+}
 
-.countdown__units {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  max-width: 620px;
+.markets-band__inner {
+  max-width: var(--shell);
   margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+@media (min-width: 860px) {
+  .markets-band__inner {
+    flex-direction: row;
+    justify-content: center;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
 }
 
-.unit { padding-inline: clamp(0.25rem, 2vw, 1rem); }
-.unit + .unit { border-inline-start: 1px solid var(--rule-on-dark); }
-
-.unit__value {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(2.1rem, 6.6vw, 3.8rem);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.035em;
-  color: var(--light-gold);
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1;
-}
-
-.unit__name {
-  display: block;
-  margin-top: 0.85rem;
-  font-size: 0.62rem;
-  font-weight: 500;
+.markets__label {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--text-on-dark-soft);
+  color: var(--covenant-gold);
+  white-space: nowrap;
 }
 
-.countdown__date {
-  margin-top: clamp(1.25rem, 3vh, 2rem);
-  font-size: 0.88rem;
-  letter-spacing: 0.05em;
-  color: var(--text-on-dark-soft);
+/* Seven country names, small caps, separated by space only. Hairline
+   separators were tried and dropped: a ::before rule lands at the start of a
+   wrapped row on a phone, and CSS has no selector for "first item on this
+   line". Spacing survives every width. */
+.markets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.55rem clamp(1.1rem, 2.4vw, 1.9rem);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-on-dark);
 }
+
+.markets__item { white-space: nowrap; }
 
 /* ==========================================================================
    Invitation form
    ========================================================================== */
 
 .invite {
-  max-width: 900px;
-  margin-top: clamp(2.75rem, 7vh, 4rem);
-  padding-top: clamp(2rem, 5vh, 2.75rem);
-  border-top: 1px solid var(--rule-on-dark);
+  max-width: 620px;
+  margin-inline: auto;
+  margin-top: clamp(2.25rem, 5.5vh, 3.25rem);
   scroll-margin-top: 2rem;
 }
 
-.invite__title {
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 3vw, 1.7rem);
-  font-weight: 500;
-  letter-spacing: -0.018em;
-  margin-bottom: 1.5rem;
-}
 
 .invite__fields {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
 }
-@media (min-width: 560px) {
-  .invite__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (min-width: 1000px) {
+@media (min-width: 640px) {
   .invite__fields {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
   }
 }
 
@@ -476,6 +475,9 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
 .field__input--select option { background: var(--evergreen-dark); color: var(--text-on-dark); }
 
 .btn {
+  display: inline-block;
+  /* Anchors styled as buttons: the underline belongs to links, not buttons. */
+  text-decoration: none;
   padding: 0.9rem 1.6rem;
   font-family: var(--font-body);
   font-size: 0.9rem;
@@ -503,15 +505,9 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
 .btn--gold:active { transform: translateY(0); }
 .btn[disabled] { opacity: 0.55; cursor: default; transform: none; }
 
-/* The closing panel is cream, where the gold button loses its contrast. */
-.btn--ink {
-  background: var(--evergreen);
-  color: var(--warm-cream);
-}
-.btn--ink:hover { background: var(--evergreen-soft); transform: translateY(-1px); }
-.btn--ink:active { transform: translateY(0); }
 
 .invite__note {
+  text-align: center;
   margin-top: 1.1rem;
   font-size: 0.82rem;
   color: var(--text-on-dark-soft);
@@ -520,72 +516,15 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
 .invite__note--error { color: #E08C77; }
 
 /* ==========================================================================
-   Gathering — the gold detail band, carried over from the invitation poster
-   ========================================================================== */
-
-.event-band {
-  background: var(--covenant-gold);
-  color: var(--evergreen);
-  padding-block: clamp(1.75rem, 4vw, 2.5rem);
-  padding-inline: var(--gutter);
-}
-
-.event-band__inner {
-  max-width: var(--shell);
-  margin-inline: auto;
-  margin-block: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.75rem;
-}
-
-/* Rules between the facts only once they sit side by side. */
-@media (min-width: 640px) {
-  .event-band__inner { grid-template-columns: repeat(2, 1fr); gap: 1.5rem clamp(1.5rem, 4vw, 3rem); }
-}
-@media (min-width: 940px) {
-  .event-band__inner { grid-template-columns: repeat(4, 1fr); gap: 0; }
-  .fact { padding-inline: clamp(1.1rem, 2.5vw, 2.25rem); }
-  .fact:first-child { padding-inline-start: 0; }
-  .fact:last-child { padding-inline-end: 0; }
-  .fact + .fact { border-inline-start: 1px solid rgba(14, 54, 42, 0.3); }
-}
-
-.fact__label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(14, 54, 42, 0.74);
-  margin-bottom: 0.55rem;
-}
-
-.fact__value {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2.1vw, 1.4rem);
-  font-weight: 500;
-  line-height: 1.22;
-  letter-spacing: -0.018em;
-  text-wrap: balance;
-}
-
-/* A sentence rather than a value, so it steps down to the body face. */
-.fact__value--note {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0;
-  color: rgba(14, 54, 42, 0.88);
-}
-
-/* ==========================================================================
    Sections
    ========================================================================== */
 
 .section { padding-block: var(--section-y); scroll-margin-top: 1.5rem; }
 .section__inner { max-width: var(--shell); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* The notify section is one column of centred copy, so it gets a measure of
+   its own rather than the full shell. */
+.section__inner--narrow { max-width: 720px; text-align: center; }
 
 .section--cream {
   background: var(--surface-light);
@@ -603,11 +542,13 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
   text-wrap: balance;
   max-width: 22ch;
 }
-.section__title--light { color: var(--text-on-dark); }
 
 /* When a lede follows the title they are one unit; the full section gap
    belongs below the lede instead. */
 .section__title:has(+ .section__lede) { margin-bottom: 0; }
+
+.section__title--light  { color: var(--text-on-dark); }
+.section__title--center { max-width: 20ch; margin-inline: auto; }
 
 /* ── Positioning ledger ─────────────────────────────────────────────────── */
 
@@ -665,9 +606,10 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
   color: var(--text-on-light);
   text-wrap: pretty;
 }
-.section__lede--light { color: var(--text-on-dark); }
+.section__lede--light  { color: var(--text-on-dark); }
+.section__lede--center { margin-inline: auto; }
+
 .section__lede + .ledger,
-.section__lede + .steps,
 .section__lede + .pillars { margin-top: clamp(2.5rem, 6vh, 4rem); }
 
 /* A quiet label between a section title and a block within it, so a long
@@ -689,247 +631,6 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
   color: var(--slate);
 }
 
-/* ── Numbered steps — used for "how it works" and "how to attend" ───────── */
-
-.steps {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(1.75rem, 4vw, 2.5rem);
-}
-@media (min-width: 700px)  { .steps { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1000px) { .steps { grid-template-columns: repeat(4, 1fr); } }
-/* Three steps read better as three columns than as 4-up with a hole. */
-@media (min-width: 700px)  { .steps--tight { grid-template-columns: repeat(3, 1fr); } }
-
-.step { padding-top: 1.4rem; border-top: 1px solid var(--rule-on-light); }
-.steps--light .step { border-top-color: var(--rule-on-dark); }
-
-.step__num {
-  display: block;
-  margin-bottom: 0.8rem;
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  letter-spacing: 0.06em;
-  font-variant-numeric: tabular-nums;
-  color: var(--covenant-gold);
-}
-.steps--ink .step__num { color: var(--verified-green); }
-
-.step__title {
-  margin: 0 0 0.5rem;
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
-  font-weight: 700;
-  letter-spacing: -0.005em;
-  color: var(--text-on-light);
-  text-wrap: balance;
-}
-.steps--light .step__title { color: var(--text-on-dark); }
-
-.step__body {
-  font-size: 0.95rem;
-  line-height: 1.62;
-  color: var(--text-on-light-soft);
-  text-wrap: pretty;
-}
-.steps--light .step__body { color: var(--text-on-dark-soft); }
-
-/* ── Audience cards ─────────────────────────────────────────────────────── */
-
-.audience {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-top: clamp(2.5rem, 6vh, 3.5rem);
-}
-@media (min-width: 860px) { .audience { grid-template-columns: repeat(3, 1fr); } }
-
-.audience__card {
-  padding: clamp(1.5rem, 3vw, 2rem);
-  border: 1px solid var(--rule-on-dark);
-  border-radius: var(--radius-lg);
-  background: rgba(22, 68, 53, 0.34);
-}
-
-.audience__title {
-  margin-bottom: 0.7rem;
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2.2vw, 1.3rem);
-  font-weight: 500;
-  letter-spacing: -0.016em;
-  line-height: 1.24;
-  color: var(--text-on-dark);
-  text-wrap: balance;
-}
-
-.audience__body {
-  font-size: 0.95rem;
-  line-height: 1.62;
-  color: var(--text-on-dark-soft);
-  text-wrap: pretty;
-}
-
-/* The disqualifier. Saying who should not come is what makes the invitation
-   to everyone else credible, so it is set plainly rather than hidden. */
-.caveat {
-  max-width: 68ch;
-  margin-top: clamp(2.5rem, 6vh, 3.5rem);
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--rule-on-dark);
-  font-size: 0.98rem;
-  line-height: 1.62;
-  color: var(--text-on-dark);
-  text-wrap: pretty;
-}
-
-.caveat__label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--covenant-gold);
-}
-
-/* ── The day: reasons alongside the run of show ─────────────────────────── */
-
-.day {
-  display: grid;
-  grid-template-columns: 1fr;
-  column-gap: clamp(2.5rem, 6vw, 5rem);
-}
-@media (min-width: 900px) {
-  .day { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
-  /* Both columns start their subhead on the same line. */
-  .day__col > .subhead:first-child { margin-top: clamp(2.75rem, 6vh, 4rem); }
-}
-
-.reasons { display: grid; gap: 1.75rem; }
-
-.reason__title {
-  margin-bottom: 0.45rem;
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
-  font-weight: 500;
-  letter-spacing: -0.018em;
-  line-height: 1.24;
-  color: var(--ink);
-  text-wrap: balance;
-}
-
-.reason__body {
-  font-size: 0.95rem;
-  line-height: 1.62;
-  color: var(--text-on-light-soft);
-  text-wrap: pretty;
-}
-
-/* ── Agenda ─────────────────────────────────────────────────────────────── */
-
-.agenda { counter-reset: agenda; display: grid; }
-
-.agenda__item {
-  counter-increment: agenda;
-  position: relative;
-  padding: 0.85rem 0 0.85rem 2.6rem;
-  border-bottom: 1px solid var(--rule-on-light);
-  font-size: 0.98rem;
-  line-height: 1.5;
-  color: var(--ink);
-  text-wrap: pretty;
-}
-.agenda__item:first-child { padding-top: 0; }
-.agenda__item:last-child { border-bottom: 0; }
-
-.agenda__item::before {
-  content: counter(agenda, decimal-leading-zero);
-  position: absolute;
-  inset-inline-start: 0;
-  top: 0.95rem;
-  font-family: var(--font-display);
-  font-size: 0.82rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--covenant-gold);
-}
-.agenda__item:first-child::before { top: 0.1rem; }
-
-.agenda__note {
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--rule-on-light);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--text-on-light-soft);
-  text-wrap: pretty;
-}
-
-/* ── Questions ──────────────────────────────────────────────────────────── */
-
-.faq {
-  max-width: 78ch;
-  margin-top: clamp(2.5rem, 6vh, 3.5rem);
-  border-top: 1px solid var(--rule-on-light);
-}
-
-.qa { border-bottom: 1px solid var(--rule-on-light); }
-
-.qa__q {
-  position: relative;
-  display: block;
-  padding: 1.15rem 2.5rem 1.15rem 0;
-  cursor: pointer;
-  list-style: none;
-  font-family: var(--font-display);
-  font-size: clamp(1.05rem, 2vw, 1.2rem);
-  font-weight: 500;
-  letter-spacing: -0.014em;
-  line-height: 1.32;
-  color: var(--ink);
-  text-wrap: balance;
-  transition: color 0.18s var(--ease);
-}
-.qa__q::-webkit-details-marker { display: none; }
-.qa__q:hover { color: var(--verified-green); }
-
-/* A hairline plus that becomes a minus — no icon font, no image. */
-.qa__q::before,
-.qa__q::after {
-  content: "";
-  position: absolute;
-  inset-inline-end: 0.35rem;
-  top: 50%;
-  width: 13px;
-  height: 1.5px;
-  background: var(--covenant-gold);
-  transition: transform 0.24s var(--ease);
-}
-.qa__q::before { transform: translateY(-50%); }
-.qa__q::after  { transform: translateY(-50%) rotate(90deg); }
-.qa[open] .qa__q::after { transform: translateY(-50%) rotate(0deg); }
-
-.qa__a {
-  max-width: 62ch;
-  padding-bottom: 1.4rem;
-  font-size: 0.98rem;
-  line-height: 1.65;
-  color: var(--text-on-light-soft);
-  text-wrap: pretty;
-}
-
-.faq__more {
-  margin-top: 2rem;
-  font-size: 0.95rem;
-  color: var(--text-on-light-soft);
-}
-.faq__more a {
-  color: var(--verified-green);
-  font-weight: 500;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(30, 122, 85, 0.4);
-}
-.faq__more a:hover { border-bottom-color: var(--verified-green); }
-
 /* ── Pillars ────────────────────────────────────────────────────────────── */
 
 .pillars {
@@ -945,6 +646,10 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
   padding-top: 1.5rem;
   border-top: 1px solid var(--rule-on-dark);
 }
+.pillars--ink .pillar { border-top-color: var(--rule-on-light); }
+.pillars--ink .pillar__num   { color: var(--verified-green); }
+.pillars--ink .pillar__title { color: var(--text-on-light); }
+.pillars--ink .pillar__body  { color: var(--text-on-light-soft); }
 
 .pillar__num {
   display: block;
@@ -994,7 +699,6 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
   text-wrap: balance;
 }
 
-.closing__cta { margin-top: clamp(2.25rem, 5vh, 3rem); }
 
 /* ==========================================================================
    Footer
@@ -1019,6 +723,21 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
   margin-bottom: 0.85rem;
 }
 
+.site-footer__contact {
+  margin-bottom: 0.9rem;
+  font-size: 0.95rem;
+  color: var(--text-on-dark-soft);
+  text-wrap: pretty;
+}
+.site-footer__contact a {
+  color: var(--covenant-gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(198, 161, 91, 0.4);
+  padding-bottom: 1px;
+  transition: border-color 0.18s var(--ease);
+}
+.site-footer__contact a:hover { border-bottom-color: var(--covenant-gold); }
+
 .site-footer__meta {
   display: flex;
   flex-wrap: wrap;
@@ -1042,15 +761,15 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
 @media (prefers-reduced-motion: no-preference) {
   .hero > * { animation: rise 0.9s var(--ease) both; }
   .hero__lockup { animation-delay: 0.06s; }
-  .hero__title  { animation-delay: 0.16s; }
-  .hero__lede   { animation-delay: 0.28s; }
-  .countdown    { animation-delay: 0.40s; }
-  .hero__actions { animation-delay: 0.52s; }
+  .status      { animation-delay: 0.12s; }
+  .hero__title { animation-delay: 0.20s; }
+  .hero__lede  { animation-delay: 0.32s; }
+  .hero__cta   { animation-delay: 0.44s; }
 
   .hero__arcs { animation: breathe 16s ease-in-out infinite; }
 
-  /* A brief lift as each countdown value is replaced. */
-  .unit__value.is-ticking { animation: tick 0.45s var(--ease); }
+  .status__dot::after { animation: halo 3.2s ease-out infinite; }
+
 }
 
 @keyframes rise {
@@ -1058,14 +777,14 @@ html[dir="rtl"] .field__input--select { background-position: left 1.1rem center;
   to   { opacity: 1; transform: none; }
 }
 
+@keyframes halo {
+  0%        { opacity: 0.55; transform: scale(0.6); }
+  70%, 100% { opacity: 0;    transform: scale(1.6); }
+}
+
 @keyframes breathe {
   0%, 100% { opacity: 0.18; transform: scale(1); }
   50%      { opacity: 0.30; transform: scale(1.02); }
-}
-
-@keyframes tick {
-  0%   { opacity: 0.25; transform: translateY(-5px); }
-  100% { opacity: 1; transform: none; }
 }
 
 /* ==========================================================================
