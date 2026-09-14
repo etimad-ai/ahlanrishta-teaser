@@ -25,6 +25,7 @@
     success: "You are on the list. We will write to you the day we open — one " +
              "message, nothing else.",
     invalidEmail: "Please enter a valid email address.",
+    missingRole: "Please tell us whether you are seeking marriage or a parent/guardian.",
     failure: "Something went wrong. Please email " + CONTACT_EMAIL + ".",
     mailto: "Opening your email app to complete the request…"
   };
@@ -81,6 +82,12 @@
       if (!isValidEmail(email)) {
         setNote(COPY.invalidEmail, "error");
         emailInput.focus();
+        return;
+      }
+
+      if (!role) {
+        setNote(COPY.missingRole, "error");
+        roleInput.focus();
         return;
       }
 
