@@ -36,6 +36,53 @@
   }
 
   /* ---------------------------------------------------------------------
+   * Already-submitted memory
+   *
+   * The submit button disables itself for the length of one request, which
+   * stops a double-click, but a visitor who reloads the page (or reopens
+   * the site later) gets a fresh, enabled button with no memory of their
+   * earlier success — and resubmits the same email. Remember successful
+   * (email, role) submissions in this browser so a repeat of that exact
+   * combination is caught before it reaches the network. The role is part
+   * of the key, not just the email, because a visitor who picked the wrong
+   * option the first time needs the correction to go through.
+   * ------------------------------------------------------------------ */
+
+  var SUBMITTED_KEY = "ahlanRishtaNotifySubmitted";
+
+  function submissionKey(email, role) {
+    return email.toLowerCase() + "|" + roleToGuest(role);
+  }
+
+  function getSubmittedKeys() {
+    try {
+      var raw = window.localStorage.getItem(SUBMITTED_KEY);
+      var keys = raw ? JSON.parse(raw) : [];
+      return Array.isArray(keys) ? keys : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function hasSubmitted(email, role) {
+    return getSubmittedKeys().indexOf(submissionKey(email, role)) !== -1;
+  }
+
+  function rememberSubmitted(email, role) {
+    try {
+      var key = submissionKey(email, role);
+      var keys = getSubmittedKeys();
+      if (keys.indexOf(key) === -1) {
+        keys.push(key);
+        window.localStorage.setItem(SUBMITTED_KEY, JSON.stringify(keys));
+      }
+    } catch (_) {
+      // Storage unavailable (private browsing, quota) — nothing to fall
+      // back to; worst case is the old behaviour for this one visitor.
+    }
+  }
+
+  /* ---------------------------------------------------------------------
    * Notify form
    * ------------------------------------------------------------------ */
 
@@ -91,6 +138,12 @@
         return;
       }
 
+      if (hasSubmitted(email, role)) {
+        form.reset();
+        setNote(COPY.success, "ok");
+        return;
+      }
+
       if (!WAITLIST_ENDPOINT) {
         sendByMail(email, role);
         return;
@@ -121,6 +174,7 @@
           });
         })
         .then(function () {
+          rememberSubmitted(email, role);
           form.reset();
           setNote(COPY.success, "ok");
         })
