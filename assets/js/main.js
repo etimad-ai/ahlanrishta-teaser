@@ -36,6 +36,47 @@
   }
 
   /* ---------------------------------------------------------------------
+   * Already-submitted memory
+   *
+   * The submit button disables itself for the length of one request, which
+   * stops a double-click, but a visitor who reloads the page (or reopens
+   * the site later) gets a fresh, enabled button with no memory of their
+   * earlier success — and resubmits the same email. Remember successful
+   * submissions in this browser so a repeat is caught before it reaches
+   * the network.
+   * ------------------------------------------------------------------ */
+
+  var SUBMITTED_KEY = "ahlanRishtaNotifySubmitted";
+
+  function getSubmittedEmails() {
+    try {
+      var raw = window.localStorage.getItem(SUBMITTED_KEY);
+      var emails = raw ? JSON.parse(raw) : [];
+      return Array.isArray(emails) ? emails : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function hasSubmitted(email) {
+    return getSubmittedEmails().indexOf(email.toLowerCase()) !== -1;
+  }
+
+  function rememberSubmitted(email) {
+    try {
+      var key = email.toLowerCase();
+      var emails = getSubmittedEmails();
+      if (emails.indexOf(key) === -1) {
+        emails.push(key);
+        window.localStorage.setItem(SUBMITTED_KEY, JSON.stringify(emails));
+      }
+    } catch (_) {
+      // Storage unavailable (private browsing, quota) — nothing to fall
+      // back to; worst case is the old behaviour for this one visitor.
+    }
+  }
+
+  /* ---------------------------------------------------------------------
    * Notify form
    * ------------------------------------------------------------------ */
 
@@ -91,6 +132,12 @@
         return;
       }
 
+      if (hasSubmitted(email)) {
+        form.reset();
+        setNote(COPY.success, "ok");
+        return;
+      }
+
       if (!WAITLIST_ENDPOINT) {
         sendByMail(email, role);
         return;
@@ -121,6 +168,7 @@
           });
         })
         .then(function () {
+          rememberSubmitted(email);
           form.reset();
           setNote(COPY.success, "ok");
         })
