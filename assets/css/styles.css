@@ -439,7 +439,14 @@ a { color: inherit; }
 @media (min-width: 640px) {
   .invite__fields {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "email role button"
+      "city  city  city";
   }
+  .invite__fields .field--email { grid-area: email; }
+  .invite__fields .field--role { grid-area: role; }
+  .invite__fields .field--city { grid-area: city; }
+  .invite__fields > button { grid-area: button; }
 }
 
 .field { display: flex; }

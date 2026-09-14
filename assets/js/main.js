@@ -107,9 +107,10 @@
    * With no endpoint configured the request would otherwise be dropped in
    * silence, so hand it to the visitor's mail client instead.
    */
-  function sendByMail(email, role) {
+  function sendByMail(email, role, city) {
     var subject = "Notify me when Ahlan Rishta opens";
-    var body = "Email: " + email + "\nI am: " + role + "\n";
+    var body = "Email: " + email + "\nI am: " + role + "\n" +
+      (city ? "City: " + city + "\n" : "");
     window.location.href = "mailto:" + CONTACT_EMAIL +
       "?subject=" + encodeURIComponent(subject) +
       "&body=" + encodeURIComponent(body);
@@ -122,9 +123,11 @@
 
       var emailInput = form.querySelector("#email");
       var roleInput = form.querySelector("#role");
+      var cityInput = form.querySelector("#city");
       var submit = form.querySelector("button[type=submit]");
       var email = (emailInput.value || "").trim();
       var role = roleInput.value;
+      var city = (cityInput.value || "").trim();
 
       if (!isValidEmail(email)) {
         setNote(COPY.invalidEmail, "error");
@@ -145,17 +148,20 @@
       }
 
       if (!WAITLIST_ENDPOINT) {
-        sendByMail(email, role);
+        sendByMail(email, role, city);
         return;
       }
 
       submit.disabled = true;
       setNote(COPY.sending, null);
 
+      var payload = { email: email, guest: roleToGuest(role) };
+      if (city) { payload.city = city; }
+
       fetch(WAITLIST_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, guest: roleToGuest(role) })
+        body: JSON.stringify(payload)
       })
         .then(function (response) {
           return response.text().then(function (text) {

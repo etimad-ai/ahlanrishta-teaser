@@ -247,19 +247,25 @@
           <h3 class="sr-only">Get notified when we open</h3>
 
           <div class="invite__fields">
-            <div class="field">
+            <div class="field field--email">
               <label class="sr-only" for="email">Email address</label>
               <input class="field__input" type="email" id="email" name="email"
                      autocomplete="email" required placeholder="Your email address">
             </div>
 
-            <div class="field">
+            <div class="field field--role">
               <label class="sr-only" for="role">I am</label>
               <select class="field__input field__input--select" id="role" name="role" required>
                 <option value="" disabled selected>I am…</option>
                 <option value="candidate">Seeking marriage</option>
                 <option value="guardian">A parent or guardian</option>
               </select>
+            </div>
+
+            <div class="field field--city">
+              <label class="sr-only" for="city">City</label>
+              <input class="field__input" type="text" id="city" name="city"
+                     autocomplete="address-level2" placeholder="Your city (optional)">
             </div>
 
             <button class="btn btn--gold" type="submit">Notify me</button>

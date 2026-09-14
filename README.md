@@ -53,11 +53,17 @@ Set it to any URL that accepts a JSON `POST`. If it is ever emptied, the form
 discarding signups — but in a sandboxed preview the fallback cannot navigate at
 all, so the button appears to do nothing.
 
-The agreed contract is two keys:
+The agreed contract is two required keys plus one optional one:
 
 ```json
-{ "email": "…", "guest": "seeker" | "guardian" }
+{ "email": "…", "guest": "seeker" | "guardian", "city": "…" }
 ```
+
+`city` is the visitor's free-text city field on the form. It is optional there,
+so the key is only sent when the visitor filled it in — an empty/untouched
+field is omitted from the payload rather than sent as `""`. **The lead-capture
+service needs to accept (and ignore, if unused) this key** before this change
+reaches production, since it was not part of the original two-key contract.
 
 A **5xx** is never quoted back to the visitor — the service's internals are not
 their problem, so they get `COPY.failure` and the contact address. A **4xx**
